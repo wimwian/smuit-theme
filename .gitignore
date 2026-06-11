@@ -24,3 +24,6 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 # Playwright
 test-results
+
+# pnpm 11 regenerates this to record native-build approvals; not a monorepo
+pnpm-workspace.yaml
