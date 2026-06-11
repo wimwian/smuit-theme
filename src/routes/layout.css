@@ -4,7 +4,8 @@
  */
 
 @import 'tailwindcss';
-@import '../assets/output.css';
+@import '../assets/fonts/fonts.css';
+@import '../assets/output.min.css';
 
 @layer components {
 	.app-header {

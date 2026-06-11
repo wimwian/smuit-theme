@@ -2,6 +2,8 @@ node_modules
 
 ./src/assets/output.css
 ./src/assets/output.min.css
+# Generated self-hosted fonts (scripts/fetch-fonts.mjs)
+/src/assets/fonts/
 
 # Output
 .output

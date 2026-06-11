@@ -105,8 +105,10 @@ surface.elevation = "md"
 
 # ── Fonts ─────────────────────────────────────────────────────────────────────
 # Family names only — the families themselves (Noto Sans Display / Google Sans
-# Code / Noto Sans Mono) are loaded by the consuming app (e.g. a <link> in its
-# HTML head), NOT imported here.
+# Code / Noto Sans Mono) are NOT imported by the generated theme CSS. Consumers
+# either load them in the app (e.g. a <link> in its HTML head) or self-host by
+# importing the bundled '@wimwian/smuit-theme/fonts.css' (woff2 files downloaded
+# into src/assets/fonts/ by scripts/fetch-fonts.mjs).
 [fonts]
 sans = "'Noto Sans Display', Inter, sans-serif"
 mono = "'Noto Sans Mono', 'Google Sans Code', monospace"
@@ -165,9 +167,9 @@ capitalize = 1
 small-caps = 1
 weight = 600
 width = 1.0125
-sm.size = "10px / 14px"
-md.size = "12px / 18px"
-lg.size = "14px / 22px"
+sm.size = "12px / 16px"
+md.size = "14px / 20px"
+lg.size = "16px / 24px"
 
 [type.code]
 width = 1.025

@@ -15,7 +15,8 @@
 		"build": "vite build && pnpm prepack",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo '' ; lefthook install || true",
-		"prepack": "svelte-kit sync && svelte-package && publint",
+		"fetch-fonts": "node scripts/fetch-fonts.mjs",
+		"prepack": "svelte-kit sync && svelte-package && pnpm fetch-fonts && publint",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
@@ -42,6 +43,7 @@
 	"files": [
 		"dist",
 		"src/assets/output.min.css",
+		"src/assets/fonts",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
@@ -64,7 +66,8 @@
 			"types": "./dist/theme.d.ts",
 			"default": "./dist/theme.js"
 		},
-		"./theme.minified.css": "./src/assets/output.min.css"
+		"./theme.minified.css": "./src/assets/output.min.css",
+		"./fonts.css": "./src/assets/fonts/fonts.css"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"
