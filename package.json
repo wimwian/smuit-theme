@@ -1,5 +1,5 @@
 {
-	"name": "@wimwian/smuit-theme",
+	"name": "@smuit/smuit-theme",
 	"version": "0.2.0",
 	"description": "SvelteKit + Tailwind v4 design-token theme: oklch palettes, light/dark theming, and a ThemeToggle component.",
 	"license": "MIT",
@@ -8,7 +8,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/wimwian/smuit-theme.git"
+		"url": "git+https://github.com/smuit/smuit-theme.git"
 	},
 	"scripts": {
 		"dev": "vite dev",

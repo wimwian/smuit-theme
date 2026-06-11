@@ -334,15 +334,15 @@
     font-size: 28px;
     line-height: 40px;
     font-weight: 600;
-    font-width: 95%;
+    font-stretch: 95%;
     text-transform: capitalize;
 }
 
 @utility display-md {
     font-size: 36px;
-    line-height: 44px;
+    line-height: 50px;
     font-weight: 600;
-    font-width: 95%;
+    font-stretch: 95%;
     text-transform: capitalize;
 }
 
@@ -350,7 +350,7 @@
     font-size: 44px;
     line-height: 60px;
     font-weight: 600;
-    font-width: 95%;
+    font-stretch: 95%;
     text-transform: capitalize;
 }
 
@@ -358,16 +358,16 @@
     font-size: 20px;
     line-height: 28px;
     font-weight: 600;
-    font-width: 97.5%;
+    font-stretch: 97.5%;
     text-transform: capitalize;
     font-variant-caps: small-caps;
 }
 
 @utility title-md {
     font-size: 24px;
-    line-height: 32px;
+    line-height: 34px;
     font-weight: 600;
-    font-width: 97.5%;
+    font-stretch: 97.5%;
     text-transform: capitalize;
     font-variant-caps: small-caps;
 }
@@ -376,7 +376,7 @@
     font-size: 28px;
     line-height: 40px;
     font-weight: 600;
-    font-width: 97.5%;
+    font-stretch: 97.5%;
     text-transform: capitalize;
     font-variant-caps: small-caps;
 }
@@ -385,7 +385,7 @@
     font-size: 16px;
     line-height: 22px;
     font-weight: 600;
-    font-width: 100%;
+    font-stretch: 100%;
     text-transform: capitalize;
 }
 
@@ -393,92 +393,92 @@
     font-size: 18px;
     line-height: 26px;
     font-weight: 600;
-    font-width: 100%;
+    font-stretch: 100%;
     text-transform: capitalize;
 }
 
 @utility heading-md {
     font-size: 20px;
-    line-height: 28px;
+    line-height: 30px;
     font-weight: 600;
-    font-width: 100%;
+    font-stretch: 100%;
     text-transform: capitalize;
 }
 
 @utility heading-lg {
     font-size: 22px;
-    line-height: 32px;
+    line-height: 34px;
     font-weight: 600;
-    font-width: 100%;
+    font-stretch: 100%;
     text-transform: capitalize;
 }
 
 @utility heading-xl {
     font-size: 24px;
-    line-height: 34px;
+    line-height: 38px;
     font-weight: 600;
-    font-width: 100%;
+    font-stretch: 100%;
     text-transform: capitalize;
 }
 
 @utility body-xs {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 16px;
     font-weight: 500;
-    font-width: 100.62%;
+    font-stretch: 100.62%;
 }
 
 @utility body-sm {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 16px;
+    line-height: 20px;
     font-weight: 500;
-    font-width: 100.62%;
+    font-stretch: 100.62%;
 }
 
 @utility body-md {
-    font-size: 16px;
-    line-height: 22px;
-    font-weight: 500;
-    font-width: 100.62%;
-}
-
-@utility body-lg {
     font-size: 18px;
     line-height: 24px;
     font-weight: 500;
-    font-width: 100.62%;
+    font-stretch: 100.62%;
 }
 
-@utility body-xl {
+@utility body-lg {
     font-size: 20px;
     line-height: 28px;
     font-weight: 500;
-    font-width: 100.62%;
+    font-stretch: 100.62%;
+}
+
+@utility body-xl {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
+    font-stretch: 100.62%;
 }
 
 @utility label-sm {
-    font-size: 10px;
+    font-size: 14px;
     line-height: 16px;
     font-weight: 600;
-    font-width: 101.25%;
+    font-stretch: 101.25%;
     text-transform: capitalize;
     font-variant-caps: small-caps;
 }
 
 @utility label-md {
-    font-size: 12px;
-    line-height: 18px;
+    font-size: 16px;
+    line-height: 20px;
     font-weight: 600;
-    font-width: 101.25%;
+    font-stretch: 101.25%;
     text-transform: capitalize;
     font-variant-caps: small-caps;
 }
 
 @utility label-lg {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 24px;
     font-weight: 600;
-    font-width: 101.25%;
+    font-stretch: 101.25%;
     text-transform: capitalize;
     font-variant-caps: small-caps;
 }
@@ -487,19 +487,19 @@
     font-size: 12px;
     line-height: 20px;
     font-weight: 600;
-    font-width: 102.5%;
+    font-stretch: 102.5%;
 }
 
 @utility code-md {
     font-size: 14px;
-    line-height: 22px;
+    line-height: 24px;
     font-weight: 600;
-    font-width: 102.5%;
+    font-stretch: 102.5%;
 }
 
 @utility code-lg {
     font-size: 16px;
-    line-height: 24px;
+    line-height: 28px;
     font-weight: 600;
-    font-width: 102.5%;
+    font-stretch: 102.5%;
 }
