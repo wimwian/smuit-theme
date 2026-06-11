@@ -1,0 +1,8 @@
+# pnpm 11 settings file — NOT a monorepo (a monorepo needs a `packages:` key).
+# Approves dependency build scripts that pnpm otherwise refuses to run in CI
+# (CI escalates ignored builds to a hard error). lefthook installs git hooks;
+# the native deps ship prebuilt binaries so their build is effectively a no-op.
+allowBuilds:
+  '@tailwindcss/oxide': true
+  esbuild: true
+  lefthook: true
