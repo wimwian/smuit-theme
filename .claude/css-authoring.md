@@ -29,9 +29,9 @@ utilities you'd otherwise pile onto the tag.
 @reference "@wimwian-org/theme";
 
 @layer components {
-    .card-root {
-        @apply flex items-center gap-2 rounded-md border bg-c-100 px-4 py-2;
-    }
+	.card-root {
+		@apply bg-c-100 flex items-center gap-2 rounded-md border px-4 py-2;
+	}
 }
 ```
 
@@ -68,19 +68,19 @@ classes and shrinks the class footprint.
 ```svelte
 <!-- ✅ child carries no class -->
 <div class="card-root">
-    <span>Label</span>
+	<span>Label</span>
 </div>
 ```
 
 ```css
 @layer components {
-    .card-root {
-        @apply rounded-md border bg-c-100 p-4;
-    }
-    /* style the span through the parent, not its own class */
-    .card-root span {
-        @apply text-c-700 text-sm;
-    }
+	.card-root {
+		@apply bg-c-100 rounded-md border p-4;
+	}
+	/* style the span through the parent, not its own class */
+	.card-root span {
+		@apply text-c-700 text-sm;
+	}
 }
 ```
 
@@ -108,14 +108,14 @@ Tag the parts in the component (children carry a slot, not classes):
 ```svelte
 <!-- Button.svelte -->
 <script lang="ts">
-    import { Button } from 'bits-ui';
-    import './button.css';
-    let { icon, children, ...rest } = $props();
+	import { Button } from 'bits-ui';
+	import './button.css';
+	let { icon, children, ...rest } = $props();
 </script>
 
 <Button.Root class="btn" {...rest}>
-    {#if icon}<span data-slot="icon">{@render icon()}</span>{/if}
-    <span data-slot="label">{@render children?.()}</span>
+	{#if icon}<span data-slot="icon">{@render icon()}</span>{/if}
+	<span data-slot="label">{@render children?.()}</span>
 </Button.Root>
 ```
 
@@ -123,19 +123,19 @@ Style each slot from the parent — and drive child styling off parent state wit
 
 ```css
 @layer components {
-    .btn {
-        @apply inline-flex items-center gap-2;
-    }
-    .btn [data-slot='icon'] {
-        @apply size-4 shrink-0;
-    }
-    .btn [data-slot='label'] {
-        @apply truncate;
-    }
-    /* parent state cascades to the slot through one selector */
-    .btn:hover [data-slot='icon'] {
-        @apply text-c-700;
-    }
+	.btn {
+		@apply inline-flex items-center gap-2;
+	}
+	.btn [data-slot='icon'] {
+		@apply size-4 shrink-0;
+	}
+	.btn [data-slot='label'] {
+		@apply truncate;
+	}
+	/* parent state cascades to the slot through one selector */
+	.btn:hover [data-slot='icon'] {
+		@apply text-c-700;
+	}
 }
 ```
 
@@ -144,8 +144,8 @@ no hardcoded utilities passed down:
 
 ```svelte
 <Button>
-    {#snippet icon()}<SearchIcon />{/snippet}
-    Search
+	{#snippet icon()}<SearchIcon />{/snippet}
+	Search
 </Button>
 ```
 

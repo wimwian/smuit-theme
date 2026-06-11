@@ -104,8 +104,8 @@ Authoritative Material/MDC → project translation. Consult during Phase 3, appl
 1. Create a `TodoWrite` list covering all seven phases (plus a per-component sub-list if a batch was requested).
 2. If `$ARGUMENTS` is empty or ambiguous, ask the user which Material component(s) they want. The current named targets are **MaterialInput** (Material text field) — reference SMUI's [Text Field](https://sveltematerialui.com/demo/textfield/) — and **TimePicker** — SMUI ships no time picker, so reference the **[Material Design 3 time-pickers spec](https://m3.material.io/components/time-pickers/overview)** (dial + keyboard-input modes, hour/minute selectors, AM/PM toggle), backing the interactive behaviour with the `bits-ui` Time Field primitive. Other SMUI components worth building: `Button`, `Icon Button`, `Fab`, `Segmented Button`, `Card`, `Paper`, `Badge`, `Chips`, `Checkbox`, `Radio`, `Switch`, `Slider`, `Select`, `Autocomplete`, `Form Field`, `Dialog`, `Drawer`, `Menu`, `List`, `Tab Bar`, `Data Table`, `Snackbar`, `Banner`, `Tooltip`, `Linear Progress`, `Circular Progress`, `Top App Bar`, `Layout Grid`, `Image List`.
 3. For each, determine names:
-    - PascalCase for the component (`Button`, `Card`, `Textfield`).
-    - kebab-case for the package, paths, route, and branch (`button`, `card`, `textfield`).
+   - PascalCase for the component (`Button`, `Card`, `Textfield`).
+   - kebab-case for the package, paths, route, and branch (`button`, `card`, `textfield`).
 4. **Check it doesn't already exist** at `components/<kebab-name>/`. If it does, stop and tell the user — use the standard feature-branch flow to modify it instead. (Note: many Material components overlap with existing `@wimwian-org/*` bits — Button, Card, Checkbox, Switch, Slider, Dialog, Tooltip, etc. already exist. Flag overlaps early.)
 
 ---
@@ -118,33 +118,33 @@ Authoritative Material/MDC → project translation. Consult during Phase 3, appl
 
 1. **Fetch the SMUI demo/docs** for the component with `WebFetch`:
 
-    ```
-    https://sveltematerialui.com/demo/<component>/
-    ```
+   ```
+   https://sveltematerialui.com/demo/<component>/
+   ```
 
-    SMUI demo slugs are **lower-cased** (e.g. `/demo/button/`, `/demo/card/`, `/demo/textfield/`). If a slug 404s, fetch the SMUI home page `https://sveltematerialui.com/` and find the component's nav link. Apply the [Reference resolution guard](#-reference-resolution-guard-smui--material-3--ask): **if SMUI has no such component** (e.g. the time picker), reference the **Material Design 3 spec** (`https://m3.material.io/components/<name>/overview`); **if it's in neither**, STOP and ask the user for a reference link before continuing. Back the behaviour with the closest `bits-ui` primitive.
+   SMUI demo slugs are **lower-cased** (e.g. `/demo/button/`, `/demo/card/`, `/demo/textfield/`). If a slug 404s, fetch the SMUI home page `https://sveltematerialui.com/` and find the component's nav link. Apply the [Reference resolution guard](#-reference-resolution-guard-smui--material-3--ask): **if SMUI has no such component** (e.g. the time picker), reference the **Material Design 3 spec** (`https://m3.material.io/components/<name>/overview`); **if it's in neither**, STOP and ask the user for a reference link before continuing. Back the behaviour with the closest `bits-ui` primitive.
 
 2. **Fetch the SMUI source** for deeper structure when the demo isn't enough:
 
-    ```
-    https://github.com/hperrin/svelte-material-ui/tree/master/packages/<kebab-name>
-    ```
+   ```
+   https://github.com/hperrin/svelte-material-ui/tree/master/packages/<kebab-name>
+   ```
 
-    Read the component's `.svelte` markup and exported props. Note the SMUI sub-component breakdown (e.g. `Card` → `Content`, `Actions`, `Media`; `Textfield` → `Textfield`, `HelperText`, `Icon`).
+   Read the component's `.svelte` markup and exported props. Note the SMUI sub-component breakdown (e.g. `Card` → `Content`, `Actions`, `Media`; `Textfield` → `Textfield`, `HelperText`, `Icon`).
 
 3. **Map the behaviour to a `bits-ui` primitive** where one exists. Cross-reference [`.claude/bits.md`](../bits.md) and the bits-ui docs (`https://bits-ui.com/docs/components/<kebab-name>/llms.txt`). Decide per component:
-    - **Wrap bits-ui** — interactive components with a headless equivalent (Dialog, Menu, Select, Checkbox, Radio, Switch, Slider, Tabs, Tooltip, Accordion, Progress…).
-    - **Plain bit** — presentational Material chrome with no behaviour (Card, Paper, Badge, Layout Grid, Image List, the visual shells of progress indicators).
+   - **Wrap bits-ui** — interactive components with a headless equivalent (Dialog, Menu, Select, Checkbox, Radio, Switch, Slider, Tabs, Tooltip, Accordion, Progress…).
+   - **Plain bit** — presentational Material chrome with no behaviour (Card, Paper, Badge, Layout Grid, Image List, the visual shells of progress indicators).
 
 4. **Launch a `code-explorer` agent** to map the closest existing `@sui` component as a template:
 
-    ```
-    Trace components/switch/ (or components/badge/ for a presentational
-    component) end-to-end: the .svelte wrapping pattern and import order,
-    types.ts prop extension, <name>.variants.ts tv() config, <name>.css
-    token-block + @layer components structure, and the *.test.ts browser-mode
-    fixture. Return the 6–8 patterns I must replicate for a new component.
-    ```
+   ```
+   Trace components/switch/ (or components/badge/ for a presentational
+   component) end-to-end: the .svelte wrapping pattern and import order,
+   types.ts prop extension, <name>.variants.ts tv() config, <name>.css
+   token-block + @layer components structure, and the *.test.ts browser-mode
+   fixture. Return the 6–8 patterns I must replicate for a new component.
+   ```
 
 5. **Summarise** per component: Material anatomy + sub-parts, the SMUI prop surface, the chosen backing (bits-ui primitive vs plain), a11y notes (roles, keyboard, focus), and the closest existing template.
 
@@ -157,11 +157,11 @@ Authoritative Material/MDC → project translation. Consult during Phase 3, appl
 **Actions:**
 
 1. For each component, build the concrete plan:
-    - Every Material colour/elevation/shape role → project token, via the [mapping table](#material--token-mapping-reference).
-    - The `tv()` variant axes (`variant`, `size`, `tint`) and their class names.
-    - Which Material sub-parts become separate `.svelte` files (compound export) vs a single component. See [`.claude/bits.md`](../bits.md) § "Composing Multi-Part Primitives".
-    - The ripple/state-layer replacement strategy (focus outline + hover ramp).
-    - Any Material behaviour that must be delegated to bits-ui (and which props bind through).
+   - Every Material colour/elevation/shape role → project token, via the [mapping table](#material--token-mapping-reference).
+   - The `tv()` variant axes (`variant`, `size`, `tint`) and their class names.
+   - Which Material sub-parts become separate `.svelte` files (compound export) vs a single component. See [`.claude/bits.md`](../bits.md) § "Composing Multi-Part Primitives".
+   - The ripple/state-layer replacement strategy (focus outline + hover ramp).
+   - Any Material behaviour that must be delegated to bits-ui (and which props bind through).
 2. **Identify Material → project departures** explicitly: ripple removal, elevation-token substitution, typography mapping, disabled-treatment substitution, and the deletion of any MDC theme/dark mixins.
 3. **Present the mapping** to the user as a table (Material role → project token/class) plus the file list you'll create. Wait for review before Phase 4.
 
@@ -193,45 +193,45 @@ If the user says "your call", recommend based on the closest existing `@sui` com
 
 1. **Start the feature worktree** (always cut from `dev`):
 
-    ```bash
-    bin/wt feature <kebab-slug>
-    cd ../smuit.worktrees/<kebab-slug>
-    pnpm install
-    git branch --show-current        # must print: feature/<kebab-slug>
-    ```
+   ```bash
+   bin/wt feature <kebab-slug>
+   cd ../smuit.worktrees/<kebab-slug>
+   pnpm install
+   git branch --show-current        # must print: feature/<kebab-slug>
+   ```
 
-    Do not skip the `cd`. All subsequent writes happen inside the worktree.
+   Do not skip the `cd`. All subsequent writes happen inside the worktree.
 
 2. **Scaffold the package** at `components/<kebab-name>/`, mirroring an existing component:
-    - **`package.json`** — name `@wimwian-org/<name>`, `"type": "module"`, `"exports": { ".": "./src/index.ts" }`, `"files": ["src"]`, `"publishConfig": { "access": "public" }`, MIT license/author. `dependencies`: `tailwind-merge`, `tailwind-variants`, and `bits-ui` **only if** wrapping a primitive. `peerDependencies`: `@wimwian-org/theme: workspace:*`, `svelte: ^5.0.0`, `tailwindcss: ^4.0.0`. `devDependencies` mirror an existing package. Copy [`components/switch/package.json`](../../components/switch/package.json) and edit. **No `@smui/*` or `@material/*`.**
-    - **`tsconfig.json`** — copy from a sibling component.
-    - **`README.md`**, **`LICENSE`**, **`CHANGELOG.md`** (empty/initial) — match siblings. The README **must** end with an **Acknowledgements** section crediting the reference it was modelled on — the SMUI component (link its demo), or the Material Design 3 spec (link the `m3.material.io` page) when SMUI ships none — stating that `@wimwian-org/<name>` is an independent implementation that doesn't depend on or copy SMUI / MDC / `@material/*` — mirror [`@wimwian-org/data-grid`](../../components/data-grid/README.md)'s SVAR credit (or [`@wimwian-org/material-time-picker`](../../components/material-time-picker/README.md) for the M3 case) exactly.
-    - **`src/` files** (each begins with the `@wimwian-org/<name>` MIT license header comment block, as in existing files):
-        - **`<Component>.svelte`** — import order: backing `bits-ui` import (if any) → `import '@wimwian-org/theme'` → `import './<name>.css'` → `import { <name> } from './<name>.variants'` → `import { twMerge } from 'tailwind-merge'` → `import type { Props } from './types'`. Destructure `$props()` with `variant`/`tint`/`size` defaults, state flags, `class: className = ''`, `children`, `ref = $bindable<HTMLElement | null>(null)`, `...restProps`. Compose: `let cls = $derived(twMerge(<name>({ variant, size, tint }), String(className ?? '')))`. Put `class={cls}`, `bind:ref`, `data-*` state hooks, `{...restProps}` on the root. Render `{@render children?.()}`. Convert any SMUI Svelte-4 syntax (`on:click`, `$$props`, `createEventDispatcher`) to Svelte 5 runes/props.
-        - **`<name>.variants.ts`** — `tv()` config exporting the `<name>` const and `<Name>Variants = VariantProps<typeof <name>>` type. Base class is a short semantic prefix (e.g. `sw`, `bdg`); variants map to component classes; `tint` maps to the tint utility names; set `defaultVariants`.
-        - **`<name>.css`** — `@reference "@wimwian-org/theme";` then all rules inside `@layer components { … }`. **Tokens-first**: declare a token block of `--…` values at the top of the base class, then reference them via `var()` below. All colours via `--color-c-*` / `--color-g-*` / elevation tokens. No hex/rgb, no `.dark` selector.
-        - **`types.ts`** — `Props` derived from the variants (`<Name>Variant`/`<Name>Tint`/`<Name>Size` via `NonNullable<<Name>Variants[...]>`) combined with the element or `bits-ui` Root props (e.g. `Primitive.RootProps & OwnProps` for a wrapper, or `HTMLAttributes<HTMLElement> & OwnProps` for presentational). Export the axis types.
-        - **`index.ts`** — license header; re-export the default component, the `<name>` variants const + `<Name>Variants` type, and the `Props`/axis types (see [`components/badge/src/index.ts`](../../components/badge/src/index.ts)).
-        - **`<Component>.test.ts`** — Vitest **browser-mode**: `import { page } from '@vitest/browser/context'`, `import { render } from 'vitest-browser-svelte'`. Cover: renders with defaults; each `variant`/`tint`/`size` applies the expected class; `disabled` (and other states); event forwarding; `ref` binds; plus any behaviour delegated to bits-ui (role, `data-state`, keyboard).
-        - **`<name>.variants.test.ts`** — assert the `tv()` config returns the expected class strings per variant combination.
+   - **`package.json`** — name `@wimwian-org/<name>`, `"type": "module"`, `"exports": { ".": "./src/index.ts" }`, `"files": ["src"]`, `"publishConfig": { "access": "public" }`, MIT license/author. `dependencies`: `tailwind-merge`, `tailwind-variants`, and `bits-ui` **only if** wrapping a primitive. `peerDependencies`: `@wimwian-org/theme: workspace:*`, `svelte: ^5.0.0`, `tailwindcss: ^4.0.0`. `devDependencies` mirror an existing package. Copy [`components/switch/package.json`](../../components/switch/package.json) and edit. **No `@smui/*` or `@material/*`.**
+   - **`tsconfig.json`** — copy from a sibling component.
+   - **`README.md`**, **`LICENSE`**, **`CHANGELOG.md`** (empty/initial) — match siblings. The README **must** end with an **Acknowledgements** section crediting the reference it was modelled on — the SMUI component (link its demo), or the Material Design 3 spec (link the `m3.material.io` page) when SMUI ships none — stating that `@wimwian-org/<name>` is an independent implementation that doesn't depend on or copy SMUI / MDC / `@material/*` — mirror [`@wimwian-org/data-grid`](../../components/data-grid/README.md)'s SVAR credit (or [`@wimwian-org/material-time-picker`](../../components/material-time-picker/README.md) for the M3 case) exactly.
+   - **`src/` files** (each begins with the `@wimwian-org/<name>` MIT license header comment block, as in existing files):
+     - **`<Component>.svelte`** — import order: backing `bits-ui` import (if any) → `import '@wimwian-org/theme'` → `import './<name>.css'` → `import { <name> } from './<name>.variants'` → `import { twMerge } from 'tailwind-merge'` → `import type { Props } from './types'`. Destructure `$props()` with `variant`/`tint`/`size` defaults, state flags, `class: className = ''`, `children`, `ref = $bindable<HTMLElement | null>(null)`, `...restProps`. Compose: `let cls = $derived(twMerge(<name>({ variant, size, tint }), String(className ?? '')))`. Put `class={cls}`, `bind:ref`, `data-*` state hooks, `{...restProps}` on the root. Render `{@render children?.()}`. Convert any SMUI Svelte-4 syntax (`on:click`, `$$props`, `createEventDispatcher`) to Svelte 5 runes/props.
+     - **`<name>.variants.ts`** — `tv()` config exporting the `<name>` const and `<Name>Variants = VariantProps<typeof <name>>` type. Base class is a short semantic prefix (e.g. `sw`, `bdg`); variants map to component classes; `tint` maps to the tint utility names; set `defaultVariants`.
+     - **`<name>.css`** — `@reference "@wimwian-org/theme";` then all rules inside `@layer components { … }`. **Tokens-first**: declare a token block of `--…` values at the top of the base class, then reference them via `var()` below. All colours via `--color-c-*` / `--color-g-*` / elevation tokens. No hex/rgb, no `.dark` selector.
+     - **`types.ts`** — `Props` derived from the variants (`<Name>Variant`/`<Name>Tint`/`<Name>Size` via `NonNullable<<Name>Variants[...]>`) combined with the element or `bits-ui` Root props (e.g. `Primitive.RootProps & OwnProps` for a wrapper, or `HTMLAttributes<HTMLElement> & OwnProps` for presentational). Export the axis types.
+     - **`index.ts`** — license header; re-export the default component, the `<name>` variants const + `<Name>Variants` type, and the `Props`/axis types (see [`components/badge/src/index.ts`](../../components/badge/src/index.ts)).
+     - **`<Component>.test.ts`** — Vitest **browser-mode**: `import { page } from '@vitest/browser/context'`, `import { render } from 'vitest-browser-svelte'`. Cover: renders with defaults; each `variant`/`tint`/`size` applies the expected class; `disabled` (and other states); event forwarding; `ref` binds; plus any behaviour delegated to bits-ui (role, `data-state`, keyboard).
+     - **`<name>.variants.test.ts`** — assert the `tv()` config returns the expected class strings per variant combination.
 
 3. **Create the demo route** at `apps/playground/src/routes/<kebab-name>/+page.svelte`:
-    - Import the component from `@wimwian-org/<name>`.
-    - Render the full variant × tint × size × state matrix agreed in Phase 4.
-    - Add label chips matching the existing demo pages (see [`components/badge/`](../../components/badge/) demo for the pattern).
+   - Import the component from `@wimwian-org/<name>`.
+   - Render the full variant × tint × size × state matrix agreed in Phase 4.
+   - Add label chips matching the existing demo pages (see [`components/badge/`](../../components/badge/) demo for the pattern).
 
 4. **Register the demo** in `apps/playground/src/routes/+page.svelte` — add an entry to the `sections` array:
 
-    ```ts
-    {
-        title: '<Component Name>',
-        group: 'Material UI',
-        description: '<short blurb — variants, tints, sizes, behaviour>',
-        href: '/<kebab-name>',
-    },
-    ```
+   ```ts
+   {
+       title: '<Component Name>',
+       group: 'Material UI',
+       description: '<short blurb — variants, tints, sizes, behaviour>',
+       href: '/<kebab-name>',
+   },
+   ```
 
-    **Always use `group: 'Material UI'`** for components built with this command — every `/create-mui` component lands in a dedicated **Material UI** group on the playground home, regardless of what it does. (The home page groups dynamically, so the group appears automatically.)
+   **Always use `group: 'Material UI'`** for components built with this command — every `/create-mui` component lands in a dedicated **Material UI** group on the playground home, regardless of what it does. (The home page groups dynamically, so the group appears automatically.)
 
 ---
 
@@ -243,47 +243,47 @@ If the user says "your call", recommend based on the closest existing `@sui` com
 
 1. **Run the gauntlet** — every step green:
 
-    ```bash
-    pnpm check                                   # svelte-check (workspace)
-    pnpm lint                                    # eslint
-    pnpm --filter @wimwian-org/<name> check              # the component's own types
-    pnpm test:browser                            # browser-mode component tests
-    pnpm --filter @wimwian-org/playground build          # demo site builds
-    ```
+   ```bash
+   pnpm check                                   # svelte-check (workspace)
+   pnpm lint                                    # eslint
+   pnpm --filter @wimwian-org/<name> check              # the component's own types
+   pnpm test:browser                            # browser-mode component tests
+   pnpm --filter @wimwian-org/playground build          # demo site builds
+   ```
 
-    Any failure: stop, fix, re-run. Do not commit red. (See [`CLAUDE.md`](../../CLAUDE.md) § "Before Shipping".)
+   Any failure: stop, fix, re-run. Do not commit red. (See [`CLAUDE.md`](../../CLAUDE.md) § "Before Shipping".)
 
 2. **Launch 3 `code-reviewer` agents in parallel:**
 
-    ```
-    Agent 1 (token + Material fidelity):
-    Review components/<name>/ for leftover Material/MDC artefacts — @smui/* or
-    @material/* imports, MDC Sass variables, hardcoded Material hex (#6200ee,
-    #03dac6, etc.), ripple JS, .dark selectors, raw opacity for disabled. Verify
-    every colour reads --color-c-*/--color-g-*, elevation uses the project shadow
-    tokens, the CSS uses @reference "@wimwian-org/theme" + @layer components with a
-    tokens-first block, and variant composition goes through tailwind-variants.
-    Confirm the Material anatomy (parts, shape, elevation intent) is faithfully
-    reproduced with project tokens.
-    ```
+   ```
+   Agent 1 (token + Material fidelity):
+   Review components/<name>/ for leftover Material/MDC artefacts — @smui/* or
+   @material/* imports, MDC Sass variables, hardcoded Material hex (#6200ee,
+   #03dac6, etc.), ripple JS, .dark selectors, raw opacity for disabled. Verify
+   every colour reads --color-c-*/--color-g-*, elevation uses the project shadow
+   tokens, the CSS uses @reference "@wimwian-org/theme" + @layer components with a
+   tokens-first block, and variant composition goes through tailwind-variants.
+   Confirm the Material anatomy (parts, shape, elevation intent) is faithfully
+   reproduced with project tokens.
+   ```
 
-    ```
-    Agent 2 (accessibility):
-    Review against .claude/component.md a11y checklist. If a bits-ui primitive
-    backs the behaviour, verify it is preserved and not double-wrapped. Check
-    semantic roles, keyboard operability, visible focus via outline-c-500 (not a
-    ring, not ripple), ARIA attributes, and AA contrast (4.5:1 text / 3:1 UI) in
-    BOTH light and dark via the token scales.
-    ```
+   ```
+   Agent 2 (accessibility):
+   Review against .claude/component.md a11y checklist. If a bits-ui primitive
+   backs the behaviour, verify it is preserved and not double-wrapped. Check
+   semantic roles, keyboard operability, visible focus via outline-c-500 (not a
+   ring, not ripple), ARIA attributes, and AA contrast (4.5:1 text / 3:1 UI) in
+   BOTH light and dark via the token scales.
+   ```
 
-    ```
-    Agent 3 (Svelte 5 + conventions):
-    Review for Svelte 4 remnants (on:*, $$props, $$restProps, $$slots, $:,
-    createEventDispatcher) and confirm $props()/$state/$derived/$bindable(null).
-    Verify the package.json shape (exports, files, peerDeps @wimwian-org/theme workspace:*,
-    no @smui/* deps), index.ts re-exports component+variants+types, types.ts
-    extends the right base, and the *.test.ts + *.variants.test.ts cover every axis.
-    ```
+   ```
+   Agent 3 (Svelte 5 + conventions):
+   Review for Svelte 4 remnants (on:*, $$props, $$restProps, $$slots, $:,
+   createEventDispatcher) and confirm $props()/$state/$derived/$bindable(null).
+   Verify the package.json shape (exports, files, peerDeps @wimwian-org/theme workspace:*,
+   no @smui/* deps), index.ts re-exports component+variants+types, types.ts
+   extends the right base, and the *.test.ts + *.variants.test.ts cover every axis.
+   ```
 
 3. **Visually verify in both themes.** Run `pnpm --filter @wimwian-org/playground dev`, open `/<kebab-name>`, and check: all variants render in light + dark, focus indicator visible on keyboard tab, tint retinting works (`.primary` shifts the colour), and no Material-purple pixels remain.
 
@@ -301,53 +301,53 @@ If the user says "your call", recommend based on the closest existing `@sui` com
 
 2. **Commit** with a conventional message (use `pnpm commit`, or `git commit -m` directly):
 
-    ```bash
-    git add .
-    git commit -m "feat(<kebab-slug>): add <Component> — Material component rebuilt on sui tokens"
-    ```
+   ```bash
+   git add .
+   git commit -m "feat(<kebab-slug>): add <Component> — Material component rebuilt on sui tokens"
+   ```
 
-    Hooks fire: `pre-commit` (prettier + eslint + check), `commit-msg` (commitlint), `post-commit` (`scripts/auto-changeset.mjs` writes a minor-bump `.changeset/auto-*.md` for `feat:` and amends it into the same commit).
+   Hooks fire: `pre-commit` (prettier + eslint + check), `commit-msg` (commitlint), `post-commit` (`scripts/auto-changeset.mjs` writes a minor-bump `.changeset/auto-*.md` for `feat:` and amends it into the same commit).
 
 3. **Verify the changeset landed:**
 
-    ```bash
-    git show --stat HEAD | grep changeset
-    git status                  # clean
-    ```
+   ```bash
+   git show --stat HEAD | grep changeset
+   git status                  # clean
+   ```
 
 4. **Refresh the homepage status snapshot** (the per-component card data):
 
-    ```bash
-    pnpm status
-    ```
+   ```bash
+   pnpm status
+   ```
 
 5. **Pause for user approval, then land.** From the primary checkout (where `dev` lives), per [`.claude/gitflow.md`](../gitflow.md):
 
-    ```bash
-    cd /Users/apancha/WebstormProjects/sui
-    bin/wt rm <kebab-slug>            # remove worktree FIRST (frees the branch)
-    git flow feature finish <kebab-slug>   # merges into local dev, deletes the branch
-    ```
+   ```bash
+   cd /Users/apancha/WebstormProjects/sui
+   bin/wt rm <kebab-slug>            # remove worktree FIRST (frees the branch)
+   git flow feature finish <kebab-slug>   # merges into local dev, deletes the branch
+   ```
 
-    To land on **origin** `dev` is **protected** — it only accepts a PR from a git-flow branch (the `guard-dev` check enforces the prefix). So push the feature branch and open a PR into `dev` instead of pushing `dev` directly:
+   To land on **origin** `dev` is **protected** — it only accepts a PR from a git-flow branch (the `guard-dev` check enforces the prefix). So push the feature branch and open a PR into `dev` instead of pushing `dev` directly:
 
-    ```bash
-    git push -u origin feature/<kebab-slug>
-    gh pr create --base dev --head feature/<kebab-slug> --title "feat(<slug>): add <Component>" --body "…"
-    ```
+   ```bash
+   git push -u origin feature/<kebab-slug>
+   gh pr create --base dev --head feature/<kebab-slug> --title "feat(<slug>): add <Component>" --body "…"
+   ```
 
-    The release flow consumes the changeset when a `release/vX.Y.Z` branch is cut from `dev` (see [`/create-bit`](./create-bit.md) and [`.claude/distribution.md`](../distribution.md)).
+   The release flow consumes the changeset when a `release/vX.Y.Z` branch is cut from `dev` (see [`/create-bit`](./create-bit.md) and [`.claude/distribution.md`](../distribution.md)).
 
 6. **Mark all todos complete** and produce a summary per component:
-    - Component name + the SMUI component it was modelled on (with demo URL).
-    - Backing: `bits-ui <primitive>` or plain presentational.
-    - File list (`components/<name>/…`, `apps/playground/src/routes/<name>/…`).
-    - Material → token mapping applied (ripple removed, elevation/shape/typography substitutions).
-    - Confirmation the README **Acknowledgements** section credits the resolved reference (SMUI, or Material Design 3 when SMUI has none).
-    - Variant × tint × size matrix the demo covers.
-    - Test count (component + variants).
-    - Changeset file and bump kind.
-    - Anything deferred.
+   - Component name + the SMUI component it was modelled on (with demo URL).
+   - Backing: `bits-ui <primitive>` or plain presentational.
+   - File list (`components/<name>/…`, `apps/playground/src/routes/<name>/…`).
+   - Material → token mapping applied (ripple removed, elevation/shape/typography substitutions).
+   - Confirmation the README **Acknowledgements** section credits the resolved reference (SMUI, or Material Design 3 when SMUI has none).
+   - Variant × tint × size matrix the demo covers.
+   - Test count (component + variants).
+   - Changeset file and bump kind.
+   - Anything deferred.
 
 ---
 

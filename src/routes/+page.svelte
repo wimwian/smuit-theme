@@ -336,9 +336,7 @@
 				{@const okD = n ? n.dark >= thr : true}
 				<div class="type-row">
 					<code class="col-role name">{t.cls}</code>
-					<span class="col-meta name"
-						>{m ? `${m.size}/${m.lh} · ${m.wt} · ${m.wd}%` : '…'}</span
-					>
+					<span class="col-meta name">{m ? `${m.size}/${m.lh} · ${m.wt} · ${m.wd}%` : '…'}</span>
 
 					<div
 						class="col-sample sample"
@@ -373,7 +371,10 @@
 			<div class="elevations">
 				{#each ELEVATIONS as level (level)}
 					{@const none = level === 'none'}
-					<div class="elevation-card" style="box-shadow:{none ? 'none' : `var(--elevation-${level})`}">
+					<div
+						class="elevation-card"
+						style="box-shadow:{none ? 'none' : `var(--elevation-${level})`}"
+					>
 						<code class="name">{none ? 'box-shadow: none' : `--elevation-${level}`}</code>
 					</div>
 				{/each}
@@ -425,9 +426,9 @@
 						<div
 							class="login-frame"
 							data-theme="dark"
-							style="background:{cssVar('--surface-bg')};--lc-bg:{cssVar(tok(h, 'bg'))};--lc-fg:{cssVar(
-								tok(h, 'fg')
-							)};--lc-border:{cssVar(tok(h, 'border'))}"
+							style="background:{cssVar('--surface-bg')};--lc-bg:{cssVar(
+								tok(h, 'bg')
+							)};--lc-fg:{cssVar(tok(h, 'fg'))};--lc-border:{cssVar(tok(h, 'border'))}"
 						>
 							<span class="login-cap label-sm">dark</span>
 							{@render loginCard()}

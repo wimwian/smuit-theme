@@ -7,3 +7,7 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Generated theme-generator output (output.min.css must stay minified)
+src/assets/output.css
+src/assets/output.min.css

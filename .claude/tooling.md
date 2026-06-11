@@ -23,41 +23,41 @@ import globals from 'globals';
 import svelteConfig from './svelte.config.js';
 
 export default ts.config(
-    js.configs.recommended,
-    ...ts.configs.recommended,
-    ...svelte.configs.recommended,
-    prettier,
-    ...svelte.configs.prettier,
-    {
-        languageOptions: {
-            globals: { ...globals.browser, ...globals.node },
-        },
-        rules: {
-            'no-undef': 'off', // TS handles this
-        },
-    },
-    {
-        files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
-        languageOptions: {
-            parserOptions: {
-                projectService: true,
-                extraFileExtensions: ['.svelte'],
-                parser: ts.parser,
-                svelteConfig,
-            },
-        },
-    },
-    {
-        ignores: [
-            'node_modules/',
-            '.svelte-kit/',
-            'build/',
-            'dist/',
-            'coverage/',
-            'playwright-report/',
-            'test-results/',
-        ],
-    },
+	js.configs.recommended,
+	...ts.configs.recommended,
+	...svelte.configs.recommended,
+	prettier,
+	...svelte.configs.prettier,
+	{
+		languageOptions: {
+			globals: { ...globals.browser, ...globals.node }
+		},
+		rules: {
+			'no-undef': 'off' // TS handles this
+		}
+	},
+	{
+		files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				extraFileExtensions: ['.svelte'],
+				parser: ts.parser,
+				svelteConfig
+			}
+		}
+	},
+	{
+		ignores: [
+			'node_modules/',
+			'.svelte-kit/',
+			'build/',
+			'dist/',
+			'coverage/',
+			'playwright-report/',
+			'test-results/'
+		]
+	}
 );
 ```
 
@@ -77,14 +77,14 @@ pnpm add -D prettier prettier-plugin-svelte prettier-plugin-tailwindcss
 ```json
 // .prettierrc
 {
-    "useTabs": false,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "semi": true,
-    "trailingComma": "all",
-    "printWidth": 100,
-    "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
-    "overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }]
+	"useTabs": false,
+	"tabWidth": 2,
+	"singleQuote": true,
+	"semi": true,
+	"trailingComma": "all",
+	"printWidth": 100,
+	"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+	"overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }]
 }
 ```
 
@@ -106,19 +106,19 @@ pnpm-lock.yaml
 ```json
 // tsconfig.json
 {
-    "extends": "./.svelte-kit/tsconfig.json",
-    "compilerOptions": {
-        "allowJs": true,
-        "checkJs": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "sourceMap": true,
-        "strict": true,
-        "moduleResolution": "bundler",
-        "verbatimModuleSyntax": true
-    }
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"moduleResolution": "bundler",
+		"verbatimModuleSyntax": true
+	}
 }
 ```
 
@@ -152,14 +152,14 @@ pnpm add -D commitizen cz-conventional-changelog \
 
 ```json
 {
-    "scripts": {
-        "commit": "cz"
-    },
-    "config": {
-        "commitizen": {
-            "path": "cz-conventional-changelog"
-        }
-    }
+	"scripts": {
+		"commit": "cz"
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		}
+	}
 }
 ```
 
@@ -167,17 +167,17 @@ pnpm add -D commitizen cz-conventional-changelog \
 
 ```javascript
 export default {
-    extends: ['@commitlint/config-conventional'],
-    rules: {
-        // Permit longer subjects than the default 72 â€” Svelte component names eat chars fast.
-        'subject-max-length': [2, 'always', 100],
-        'body-max-line-length': [1, 'always', 120],
-        'type-enum': [
-            2,
-            'always',
-            ['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'build', 'ci', 'chore', 'revert'],
-        ],
-    },
+	extends: ['@commitlint/config-conventional'],
+	rules: {
+		// Permit longer subjects than the default 72 â€” Svelte component names eat chars fast.
+		'subject-max-length': [2, 'always', 100],
+		'body-max-line-length': [1, 'always', 120],
+		'type-enum': [
+			2,
+			'always',
+			['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'build', 'ci', 'chore', 'revert']
+		]
+	}
 };
 ```
 
@@ -222,33 +222,33 @@ pnpm exec lefthook install
 ```yaml
 # lefthook.yml  (lefthook v2 â€” uses `jobs:` list, not `commands:` map)
 pre-commit:
-    parallel: true
-    jobs:
-        - name: format
-          glob: '*.{js,mjs,cjs,ts,svelte,css,json,md,html}'
-          run: pnpm prettier --write {staged_files}
-          stage_fixed: true
-        - name: lint
-          glob: '*.{js,mjs,cjs,ts,svelte}'
-          run: pnpm eslint {staged_files}
+  parallel: true
+  jobs:
+    - name: format
+      glob: '*.{js,mjs,cjs,ts,svelte,css,json,md,html}'
+      run: pnpm prettier --write {staged_files}
+      stage_fixed: true
+    - name: lint
+      glob: '*.{js,mjs,cjs,ts,svelte}'
+      run: pnpm eslint {staged_files}
 
 commit-msg:
-    jobs:
-        - name: commitlint
-          run: pnpm commitlint --edit {1}
+  jobs:
+    - name: commitlint
+      run: pnpm commitlint --edit {1}
 
 post-commit:
-    jobs:
-        - name: auto-changeset
-          # Generates .changeset/auto-*.md from the conventional commit type
-          # and amends it into the just-made commit. See .claude/distribution.md
-          # for the script and the timing rationale.
-          skip:
-              - merge
-              - rebase
-              - ref: master
-              - ref: dev
-          run: node scripts/auto-changeset.mjs
+  jobs:
+    - name: auto-changeset
+      # Generates .changeset/auto-*.md from the conventional commit type
+      # and amends it into the just-made commit. See .claude/distribution.md
+      # for the script and the timing rationale.
+      skip:
+        - merge
+        - rebase
+        - ref: master
+        - ref: dev
+      run: node scripts/auto-changeset.mjs
 ```
 
 Three stages do real work:
@@ -262,24 +262,24 @@ Three stages do real work:
 ```json
 // .vscode/extensions.json
 {
-    "recommendations": [
-        "svelte.svelte-vscode",
-        "bradlc.vscode-tailwindcss",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "ms-playwright.playwright"
-    ]
+	"recommendations": [
+		"svelte.svelte-vscode",
+		"bradlc.vscode-tailwindcss",
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode",
+		"ms-playwright.playwright"
+	]
 }
 ```
 
 ```json
 // .vscode/settings.json
 {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "[svelte]": { "editor.defaultFormatter": "svelte.svelte-vscode" },
-    "eslint.validate": ["javascript", "typescript", "svelte"],
-    "tailwindCSS.experimental.classRegex": [["class:?[a-zA-Z]*\\s*=\\s*[\"'`]([^\"'`]*)[\"'`]"]]
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"[svelte]": { "editor.defaultFormatter": "svelte.svelte-vscode" },
+	"eslint.validate": ["javascript", "typescript", "svelte"],
+	"tailwindCSS.experimental.classRegex": [["class:?[a-zA-Z]*\\s*=\\s*[\"'`]([^\"'`]*)[\"'`]"]]
 }
 ```
 
@@ -291,20 +291,20 @@ Workspace-level tooling and orchestration. No `dev`/`build`/`preview` at root â€
 
 ```json
 {
-    "scripts": {
-        "check": "svelte-check --tsconfig ./tsconfig.json",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "format": "prettier --write .",
-        "format:check": "prettier --check .",
-        "test": "vitest run",
-        "coverage": "vitest run --coverage",
-        "commit": "cz",
-        "changeset": "changeset",
-        "version": "changeset version",
-        "release": "pnpm package && changeset publish",
-        "prepare": "lefthook install"
-    }
+	"scripts": {
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"test": "vitest run",
+		"coverage": "vitest run --coverage",
+		"commit": "cz",
+		"changeset": "changeset",
+		"version": "changeset version",
+		"release": "pnpm package && changeset publish",
+		"prepare": "lefthook install"
+	}
 }
 ```
 
@@ -312,12 +312,12 @@ Workspace-level tooling and orchestration. No `dev`/`build`/`preview` at root â€
 
 ```json
 {
-    "scripts": {
-        "dev": "vite dev",
-        "build": "vite build",
-        "preview": "vite preview",
-        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
-    }
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
+	}
 }
 ```
 
@@ -327,11 +327,11 @@ Run playground commands from the root with `pnpm --filter @wimwian-org/playgroun
 
 ```json
 {
-    "engines": {
-        "node": ">=24.0.0",
-        "pnpm": ">=9.0.0"
-    },
-    "packageManager": "pnpm@9.12.0"
+	"engines": {
+		"node": ">=24.0.0",
+		"pnpm": ">=9.0.0"
+	},
+	"packageManager": "pnpm@9.12.0"
 }
 ```
 

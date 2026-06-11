@@ -9,51 +9,63 @@ Every bit follows the same shape. Use Button as the template:
 ```svelte
 <!-- components/button/src/Button.svelte -->
 <script lang="ts">
-    import { Button } from 'bits-ui';
-    // @wimwian-org/theme is a peerDependency; consumers import it once in their layout.
-    // Import it here too so the bit works in isolation (Vite dedupes).
-    import '@wimwian-org/theme';
-    import './button.css';
-    import type { Props } from './types';
+	import { Button } from 'bits-ui';
+	// @wimwian-org/theme is a peerDependency; consumers import it once in their layout.
+	// Import it here too so the bit works in isolation (Vite dedupes).
+	import '@wimwian-org/theme';
+	import './button.css';
+	import type { Props } from './types';
 
-    let {
-        variant = 'solid',
-        tint = 'neutral',
-        size = 'md',
-        loading = false,
-        fullWidth = false,
-        disabled = false,
-        class: className = '',
-        children,
-        ref = $bindable(null),
-        ...restProps
-    }: Props = $props();
+	let {
+		variant = 'solid',
+		tint = 'neutral',
+		size = 'md',
+		loading = false,
+		fullWidth = false,
+		disabled = false,
+		class: className = '',
+		children,
+		ref = $bindable(null),
+		...restProps
+	}: Props = $props();
 
-    let isDisabled = $derived(disabled || loading);
+	let isDisabled = $derived(disabled || loading);
 
-    let buttonClass = $derived(
-        ['btn', `btn-${size}`, `btn-${variant}`, tint !== 'neutral' && tint, fullWidth && 'w-full', className]
-            .filter(Boolean)
-            .join(' '),
-    );
+	let buttonClass = $derived(
+		[
+			'btn',
+			`btn-${size}`,
+			`btn-${variant}`,
+			tint !== 'neutral' && tint,
+			fullWidth && 'w-full',
+			className
+		]
+			.filter(Boolean)
+			.join(' ')
+	);
 </script>
 
 <Button.Root
-    bind:ref
-    class={buttonClass}
-    disabled={isDisabled}
-    data-variant={variant}
-    data-tint={tint}
-    data-loading={loading || undefined}
-    {...restProps}
+	bind:ref
+	class={buttonClass}
+	disabled={isDisabled}
+	data-variant={variant}
+	data-tint={tint}
+	data-loading={loading || undefined}
+	{...restProps}
 >
-    {#if loading}
-        <svg class="btn-spinner" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle class="opacity-25" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" />
-            <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-        </svg>
-    {/if}
-    {@render children?.()}
+	{#if loading}
+		<svg class="btn-spinner" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+			<circle class="opacity-25" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" />
+			<path
+				d="M21 12a9 9 0 0 0-9-9"
+				stroke="currentColor"
+				stroke-width="3"
+				stroke-linecap="round"
+			/>
+		</svg>
+	{/if}
+	{@render children?.()}
 </Button.Root>
 ```
 
@@ -81,20 +93,20 @@ Best for primitives with one obvious layout (Dialog, Popover, Tooltip).
 ```svelte
 <!-- components/dialog/src/Dialog.svelte -->
 <script lang="ts">
-    import { Dialog as BitsDialog } from 'bits-ui';
-    // ...
-    let { trigger, title, children, ...rest }: Props = $props();
+	import { Dialog as BitsDialog } from 'bits-ui';
+	// ...
+	let { trigger, title, children, ...rest }: Props = $props();
 </script>
 
 <BitsDialog.Root {...rest}>
-    <BitsDialog.Trigger class="dlg-trigger">{@render trigger()}</BitsDialog.Trigger>
-    <BitsDialog.Portal>
-        <BitsDialog.Overlay class="dlg-overlay" />
-        <BitsDialog.Content class="dlg-content">
-            <BitsDialog.Title class="dlg-title">{title}</BitsDialog.Title>
-            {@render children?.()}
-        </BitsDialog.Content>
-    </BitsDialog.Portal>
+	<BitsDialog.Trigger class="dlg-trigger">{@render trigger()}</BitsDialog.Trigger>
+	<BitsDialog.Portal>
+		<BitsDialog.Overlay class="dlg-overlay" />
+		<BitsDialog.Content class="dlg-content">
+			<BitsDialog.Title class="dlg-title">{title}</BitsDialog.Title>
+			{@render children?.()}
+		</BitsDialog.Content>
+	</BitsDialog.Portal>
 </BitsDialog.Root>
 ```
 

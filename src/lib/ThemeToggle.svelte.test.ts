@@ -13,7 +13,9 @@ afterEach(() => {
 
 test('renders a labelled toggle button', async () => {
 	render(ThemeToggle);
-	await expect.element(page.getByRole('button', { name: /toggle color theme/i })).toBeInTheDocument();
+	await expect
+		.element(page.getByRole('button', { name: /toggle color theme/i }))
+		.toBeInTheDocument();
 });
 
 test('shows the sun in light mode and flips to the moon on click', async () => {

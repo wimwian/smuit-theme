@@ -105,11 +105,11 @@ This is the authoritative shadcn → project token translation table. Consult it
 
 1. Create a `TodoWrite` list covering all seven phases.
 2. If `$ARGUMENTS` is empty or ambiguous, ask the user:
-    - Which shadcn-svelte component? Available components (as of the shadcn-svelte registry): `accordion`, `alert`, `alert-dialog`, `aspect-ratio`, `avatar`, `badge`, `breadcrumb`, `button`, `calendar`, `card`, `carousel`, `checkbox`, `collapsible`, `command`, `context-menu`, `data-table`, `dialog`, `drawer`, `dropdown-menu`, `form`, `hover-card`, `input`, `input-otp`, `label`, `menubar`, `navigation-menu`, `pagination`, `popover`, `progress`, `radio-group`, `range-calendar`, `resizable`, `scroll-area`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `slider`, `sonner`, `switch`, `table`, `tabs`, `textarea`, `toast`, `toggle`, `toggle-group`, `toolbar`, `tooltip`.
-    - Is there a specific variant or behaviour you care about?
+   - Which shadcn-svelte component? Available components (as of the shadcn-svelte registry): `accordion`, `alert`, `alert-dialog`, `aspect-ratio`, `avatar`, `badge`, `breadcrumb`, `button`, `calendar`, `card`, `carousel`, `checkbox`, `collapsible`, `command`, `context-menu`, `data-table`, `dialog`, `drawer`, `dropdown-menu`, `form`, `hover-card`, `input`, `input-otp`, `label`, `menubar`, `navigation-menu`, `pagination`, `popover`, `progress`, `radio-group`, `range-calendar`, `resizable`, `scroll-area`, `select`, `separator`, `sheet`, `sidebar`, `skeleton`, `slider`, `sonner`, `switch`, `table`, `tabs`, `textarea`, `toast`, `toggle`, `toggle-group`, `toolbar`, `tooltip`.
+   - Is there a specific variant or behaviour you care about?
 3. Determine the bit's name:
-    - PascalCase for the component name (`Badge`, `Card`, `Skeleton`)
-    - kebab-case for paths and branch (`badge`, `card`, `skeleton`)
+   - PascalCase for the component name (`Badge`, `Card`, `Skeleton`)
+   - kebab-case for paths and branch (`badge`, `card`, `skeleton`)
 4. Check whether the component already exists at `src/lib/bits/<PascalName>/`. If it does, stop and tell the user.
 
 ---
@@ -122,19 +122,19 @@ This is the authoritative shadcn → project token translation table. Consult it
 
 1. Fetch the component from the shadcn-svelte registry using `WebFetch`:
 
-    ```
-    https://www.shadcn-svelte.com/r/<kebab-name>.json
-    ```
+   ```
+   https://www.shadcn-svelte.com/r/<kebab-name>.json
+   ```
 
-    If that 404s, try:
+   If that 404s, try:
 
-    ```
-    https://www.shadcn-svelte.com/registry/styles/default/<kebab-name>.json
-    ```
+   ```
+   https://www.shadcn-svelte.com/registry/styles/default/<kebab-name>.json
+   ```
 
-    The JSON response contains a `files` array. Each entry has:
-    - `name` — file name
-    - `content` — the raw file contents (Svelte component, TypeScript, CSS)
+   The JSON response contains a `files` array. Each entry has:
+   - `name` — file name
+   - `content` — the raw file contents (Svelte component, TypeScript, CSS)
 
 2. If the component depends on other shadcn components (look for `dependencies` or `registryDependencies` in the JSON), note each one. You may need to fetch those too. Fetch them now via the same URL pattern.
 
@@ -153,32 +153,32 @@ This is the authoritative shadcn → project token translation table. Consult it
 **Actions:**
 
 1. **Read every file** from the downloaded JSON carefully. For each file, identify:
-    - All shadcn CSS variables used (`--background`, `--primary`, `--border`, …) — use the [Token Mapping Reference](#token-mapping-reference) above.
-    - All shadcn Tailwind utility classes (`bg-primary`, `text-muted-foreground`, …) — use the mapping table above.
-    - Uses of `cn(...)` or `clsx(...)` — mark every call site for replacement.
-    - Uses of `$lib/utils` imports — these need to be removed.
-    - Dark-mode selectors (`.dark { ... }`) — mark for deletion; the project uses `--L`/`--D` tokens instead.
-    - Any `<style>` block — note it; scoped styles are discouraged in bits.
-    - Any dependency on other shadcn primitives (`import { ... } from '../ui/button'`, etc.) — decide whether to inline or wrap.
-    - Whether the component wraps a `bits-ui` primitive underneath (many shadcn-svelte components do — preserve the bits-ui layer if present; do not double-wrap).
+   - All shadcn CSS variables used (`--background`, `--primary`, `--border`, …) — use the [Token Mapping Reference](#token-mapping-reference) above.
+   - All shadcn Tailwind utility classes (`bg-primary`, `text-muted-foreground`, …) — use the mapping table above.
+   - Uses of `cn(...)` or `clsx(...)` — mark every call site for replacement.
+   - Uses of `$lib/utils` imports — these need to be removed.
+   - Dark-mode selectors (`.dark { ... }`) — mark for deletion; the project uses `--L`/`--D` tokens instead.
+   - Any `<style>` block — note it; scoped styles are discouraged in bits.
+   - Any dependency on other shadcn primitives (`import { ... } from '../ui/button'`, etc.) — decide whether to inline or wrap.
+   - Whether the component wraps a `bits-ui` primitive underneath (many shadcn-svelte components do — preserve the bits-ui layer if present; do not double-wrap).
 
 2. **Identify structural departures.** shadcn components often:
-    - Accept `class` but compose it with `cn()` — replace with the array-filter pattern.
-    - Lack `ref = $bindable(null)` — add it.
-    - Export multiple sub-components from one file — split into separate files per the compound-export pattern if the surface area warrants it, or keep in one file for simple components.
-    - Use Svelte 4 event directives (`on:click`) — convert to Svelte 5 prop syntax (`onclick`).
-    - Use `$$props` or `$$restProps` — replace with `$props()` destructuring and `...restProps`.
-    - Use `$$slots` — replace with `children` snippet.
+   - Accept `class` but compose it with `cn()` — replace with the array-filter pattern.
+   - Lack `ref = $bindable(null)` — add it.
+   - Export multiple sub-components from one file — split into separate files per the compound-export pattern if the surface area warrants it, or keep in one file for simple components.
+   - Use Svelte 4 event directives (`on:click`) — convert to Svelte 5 prop syntax (`onclick`).
+   - Use `$$props` or `$$restProps` — replace with `$props()` destructuring and `...restProps`.
+   - Use `$$slots` — replace with `children` snippet.
 
 3. **Summarise findings** for the user:
-    - Table of every shadcn variable/class → project token mapping you'll apply.
-    - List of `cn()` call sites.
-    - List of dark-mode selectors to delete.
-    - Whether a bits-ui primitive is already present (and which).
-    - Any npm dependency that needs adding.
-    - Any compound-export decisions.
+   - Table of every shadcn variable/class → project token mapping you'll apply.
+   - List of `cn()` call sites.
+   - List of dark-mode selectors to delete.
+   - Whether a bits-ui primitive is already present (and which).
+   - Any npm dependency that needs adding.
+   - Any compound-export decisions.
 
-    Wait for user to review the mapping before proceeding to Phase 4.
+   Wait for user to review the mapping before proceeding to Phase 4.
 
 ---
 
@@ -210,59 +210,59 @@ If the user says "your call", make a recommendation grounded in how analogous ex
 
 1. **Start the feature worktree.**
 
-    ```bash
-    bin/wt feature start <kebab-slug>
-    cd ../svelte-bits-ui.worktrees/<kebab-slug>
-    pnpm install
-    git branch --show-current   # must print: feature/<kebab-slug>
-    ```
+   ```bash
+   bin/wt feature start <kebab-slug>
+   cd ../svelte-bits-ui.worktrees/<kebab-slug>
+   pnpm install
+   git branch --show-current   # must print: feature/<kebab-slug>
+   ```
 
-    Do not skip the `cd`. All subsequent writes happen inside the worktree.
+   Do not skip the `cd`. All subsequent writes happen inside the worktree.
 
 2. **Scaffold the bit files** at `src/lib/bits/<ComponentName>/`:
 
-    **`<ComponentName>.svelte`** — adapted from the shadcn source with these changes applied:
-    - Remove all `import { cn } from '$lib/utils'` (and any other shadcn utility imports).
-    - Replace `cn(...)` with the array-filter pattern:
-        ```svelte
-        let composedClass = $derived( ['base-class', `component-${size}`, `component-${variant}`, tint !== 'neutral' &&
-        tint, className] .filter(Boolean) .join(' '), );
-        ```
-    - Add `import '../../../assets/index.css'` and `import './<component-name>.css'` at the top (after any bits-ui imports).
-    - Add `import type { Props } from './types'`.
-    - Add `ref = $bindable(null)` and `bind:ref` on the root element.
-    - Convert any Svelte 4 syntax to Svelte 5 runes (`$state`, `$derived`, `$props`, snippets).
-    - Add `data-variant={variant}` and `data-tint={tint}` attributes (where applicable) for CSS state hooks.
-    - Replace all shadcn Tailwind classes with project equivalents per the mapping table.
-    - Delete all `.dark { ... }` style blocks.
+   **`<ComponentName>.svelte`** — adapted from the shadcn source with these changes applied:
+   - Remove all `import { cn } from '$lib/utils'` (and any other shadcn utility imports).
+   - Replace `cn(...)` with the array-filter pattern:
+     ```svelte
+     let composedClass = $derived( ['base-class', `component-${size}`, `component-${variant}`, tint
+     !== 'neutral' && tint, className] .filter(Boolean) .join(' '), );
+     ```
+   - Add `import '../../../assets/index.css'` and `import './<component-name>.css'` at the top (after any bits-ui imports).
+   - Add `import type { Props } from './types'`.
+   - Add `ref = $bindable(null)` and `bind:ref` on the root element.
+   - Convert any Svelte 4 syntax to Svelte 5 runes (`$state`, `$derived`, `$props`, snippets).
+   - Add `data-variant={variant}` and `data-tint={tint}` attributes (where applicable) for CSS state hooks.
+   - Replace all shadcn Tailwind classes with project equivalents per the mapping table.
+   - Delete all `.dark { ... }` style blocks.
 
-    **`<component-name>.css`** — do **not** copy shadcn's CSS verbatim. Instead:
-    - Start with `@reference "../../../assets/index.css";`
-    - Wrap all rules in `@layer components { ... }`.
-    - Port any shadcn `@apply` statements, replacing shadcn classes with project token classes.
-    - If shadcn defines CSS variables in `:root` (e.g. `--background: 0 0% 100%`), do **not** copy them — the project's tokens supersede them.
-    - Follow the Button CSS pattern: declare a token block at the top of the base class, then reference those tokens in rules below.
+   **`<component-name>.css`** — do **not** copy shadcn's CSS verbatim. Instead:
+   - Start with `@reference "../../../assets/index.css";`
+   - Wrap all rules in `@layer components { ... }`.
+   - Port any shadcn `@apply` statements, replacing shadcn classes with project token classes.
+   - If shadcn defines CSS variables in `:root` (e.g. `--background: 0 0% 100%`), do **not** copy them — the project's tokens supersede them.
+   - Follow the Button CSS pattern: declare a token block at the top of the base class, then reference those tokens in rules below.
 
-    **`types.ts`** — define `Props` extending the underlying element or bits-ui primitive type:
-    - If the shadcn component wraps a bits-ui primitive: `type Props = Primitive.RootProps & { variant?: ...; tint?: ...; size?: ... }`.
-    - If it's pure presentational HTML: `type Props = HTMLAttributes<HTMLDivElement> & { variant?: ...; ... }`.
-    - Export `variant`, `tint`, `size` union types separately so `src/lib/index.ts` can re-export them.
+   **`types.ts`** — define `Props` extending the underlying element or bits-ui primitive type:
+   - If the shadcn component wraps a bits-ui primitive: `type Props = Primitive.RootProps & { variant?: ...; tint?: ...; size?: ... }`.
+   - If it's pure presentational HTML: `type Props = HTMLAttributes<HTMLDivElement> & { variant?: ...; ... }`.
+   - Export `variant`, `tint`, `size` union types separately so `src/lib/index.ts` can re-export them.
 
-    **`<ComponentName>.test.ts`** — minimum coverage:
-    - Renders with default props.
-    - Each `variant` value applies the expected class.
-    - Each `tint` value applies the tint class.
-    - `disabled` prop disables the element.
-    - Events forward correctly.
-    - `ref` binds to the underlying element.
+   **`<ComponentName>.test.ts`** — minimum coverage:
+   - Renders with default props.
+   - Each `variant` value applies the expected class.
+   - Each `tint` value applies the tint class.
+   - `disabled` prop disables the element.
+   - Events forward correctly.
+   - `ref` binds to the underlying element.
 
 3. **Update `src/lib/index.ts`** to re-export the bit and its types.
 
 4. **Create the demo route** at `src/routes/bits/<kebab-slug>/+page.svelte`:
-    - Import the bit from `$lib`.
-    - Render every variant × tint × size matrix agreed in Phase 4.
-    - Add label chips (`<code class="btn btn-sm btn-solid pointer-events-none select-none">.<variant></code>`) matching the existing colors/contrast page pattern.
-    - Add state toggles for any interactive states.
+   - Import the bit from `$lib`.
+   - Render every variant × tint × size matrix agreed in Phase 4.
+   - Add label chips (`<code class="btn btn-sm btn-solid pointer-events-none select-none">.<variant></code>`) matching the existing colors/contrast page pattern.
+   - Add state toggles for any interactive states.
 
 5. **Add a Playwright E2E spec** at `tests/e2e/<kebab-slug>.spec.ts` if the component's behaviour spans routing or full-page interaction. Skip for purely presentational components — component tests are sufficient.
 
@@ -278,54 +278,54 @@ If the user says "your call", make a recommendation grounded in how analogous ex
 
 1. **Run the gauntlet** — every step must be green:
 
-    ```bash
-    pnpm check                 # svelte-check + tsc
-    pnpm lint                  # eslint + prettier
-    pnpm exec vitest --run     # component tests
-    pnpm build                 # demo site builds
-    pnpm test:e2e              # Playwright (if you added a spec)
-    pnpm package               # svelte-package + publint
-    ```
+   ```bash
+   pnpm check                 # svelte-check + tsc
+   pnpm lint                  # eslint + prettier
+   pnpm exec vitest --run     # component tests
+   pnpm build                 # demo site builds
+   pnpm test:e2e              # Playwright (if you added a spec)
+   pnpm package               # svelte-package + publint
+   ```
 
-    Any failure: stop, fix, re-run. Do not commit red.
+   Any failure: stop, fix, re-run. Do not commit red.
 
 2. **Launch 3 `code-reviewer` agents in parallel**:
 
-    ```
-    Agent 1 (token compliance):
-    Review src/lib/bits/<Component>/ for any remaining shadcn CSS variables
-    (--background, --primary, --border, etc.), shadcn Tailwind classes
-    (bg-background, text-muted-foreground, etc.), cn() calls, dark: selectors,
-    $lib/utils imports, or hardcoded hex/rgb colours. Report each as a violation
-    with the file and line. Also check that @layer components is used, that
-    @reference (not @import) is used in the CSS file, and that no scoped <style>
-    block exists in the Svelte file.
-    ```
+   ```
+   Agent 1 (token compliance):
+   Review src/lib/bits/<Component>/ for any remaining shadcn CSS variables
+   (--background, --primary, --border, etc.), shadcn Tailwind classes
+   (bg-background, text-muted-foreground, etc.), cn() calls, dark: selectors,
+   $lib/utils imports, or hardcoded hex/rgb colours. Report each as a violation
+   with the file and line. Also check that @layer components is used, that
+   @reference (not @import) is used in the CSS file, and that no scoped <style>
+   block exists in the Svelte file.
+   ```
 
-    ```
-    Agent 2 (accessibility):
-    Review the adapted bit for a11y. If a bits-ui primitive is present, verify
-    it is preserved and not double-wrapped. Check: keyboard operability, visible
-    focus indicator using outline-c-500 (not ring), ARIA attributes, contrast
-    AA in both light and dark (use the ground/content token scales). Verify that
-    the .dark selector removal does not break dark-mode behaviour (the --L/--D
-    space-toggle must handle it instead).
-    ```
+   ```
+   Agent 2 (accessibility):
+   Review the adapted bit for a11y. If a bits-ui primitive is present, verify
+   it is preserved and not double-wrapped. Check: keyboard operability, visible
+   focus indicator using outline-c-500 (not ring), ARIA attributes, contrast
+   AA in both light and dark (use the ground/content token scales). Verify that
+   the .dark selector removal does not break dark-mode behaviour (the --L/--D
+   space-toggle must handle it instead).
+   ```
 
-    ```
-    Agent 3 (Svelte 5 correctness):
-    Review for Svelte 4 remnants: $:, on:*, $$props, $$restProps, $$slots,
-    createEventDispatcher. Confirm $props() destructuring, $state, $derived,
-    $bindable(null) for ref, snippet-based children. Verify types.ts uses
-    correct type extension pattern and that src/lib/index.ts re-exports both
-    the component and its variant/tint/size types.
-    ```
+   ```
+   Agent 3 (Svelte 5 correctness):
+   Review for Svelte 4 remnants: $:, on:*, $$props, $$restProps, $$slots,
+   createEventDispatcher. Confirm $props() destructuring, $state, $derived,
+   $bindable(null) for ref, snippet-based children. Verify types.ts uses
+   correct type extension pattern and that src/lib/index.ts re-exports both
+   the component and its variant/tint/size types.
+   ```
 
 3. **Visually verify in both themes.** Run `pnpm dev` and open the new demo route. Check:
-    - All variants render correctly in light and dark.
-    - Focus indicator is visible on keyboard tab.
-    - Tint retinting works (add `.primary` class and confirm the colour shifts).
-    - No shadcn-coloured pixels remain (no indigo-600 masquerading as primary, etc.).
+   - All variants render correctly in light and dark.
+   - Focus indicator is visible on keyboard tab.
+   - Tint retinting works (add `.primary` class and confirm the colour shifts).
+   - No shadcn-coloured pixels remain (no indigo-600 masquerading as primary, etc.).
 
 4. **Present consolidated findings** to the user. Ask: fix now, fix later, or proceed.
 
@@ -341,40 +341,40 @@ If the user says "your call", make a recommendation grounded in how analogous ex
 
 2. **Commit** with a conventional message:
 
-    ```bash
-    git add .
-    git commit -m "feat(<kebab-slug>): add <ComponentName> shadcn bit"
-    ```
+   ```bash
+   git add .
+   git commit -m "feat(<kebab-slug>): add <ComponentName> shadcn bit"
+   ```
 
-    Watch the hooks fire:
-    - `pre-commit` → prettier + eslint + `pnpm check`
-    - `commit-msg` → commitlint
-    - `post-commit` → `scripts/auto-changeset.mjs` writes `.changeset/auto-*.md` (minor bump for `feat:`) and amends it into the same commit
+   Watch the hooks fire:
+   - `pre-commit` → prettier + eslint + `pnpm check`
+   - `commit-msg` → commitlint
+   - `post-commit` → `scripts/auto-changeset.mjs` writes `.changeset/auto-*.md` (minor bump for `feat:`) and amends it into the same commit
 
 3. **Verify the changeset landed**:
 
-    ```bash
-    git show --stat HEAD | grep changeset
-    git status   # must be clean
-    ```
+   ```bash
+   git show --stat HEAD | grep changeset
+   git status   # must be clean
+   ```
 
 4. **Pause for user approval**, then finish the feature:
 
-    ```bash
-    bin/wt feature finish <kebab-slug>
-    cd /Users/apancha/WebstormProjects/svelte-bits-ui
-    ```
+   ```bash
+   bin/wt feature finish <kebab-slug>
+   cd /Users/apancha/WebstormProjects/svelte-bits-ui
+   ```
 
-    `bin/wt feature finish` does NOT push. The release flow consumes the changeset when a `release/vX.Y.Z` branch is cut from `dev`.
+   `bin/wt feature finish` does NOT push. The release flow consumes the changeset when a `release/vX.Y.Z` branch is cut from `dev`.
 
 5. **Mark all todos complete** and produce a summary:
-    - Component name + shadcn source URL
-    - File list (`src/lib/bits/...`, `src/routes/bits/...`, `tests/e2e/...`)
-    - Token mapping applied (which shadcn vars were replaced and with what)
-    - Variant × tint × size matrix the demo covers
-    - Test count
-    - Changeset file and bump kind
-    - Anything deferred
+   - Component name + shadcn source URL
+   - File list (`src/lib/bits/...`, `src/routes/bits/...`, `tests/e2e/...`)
+   - Token mapping applied (which shadcn vars were replaced and with what)
+   - Variant × tint × size matrix the demo covers
+   - Test count
+   - Changeset file and bump kind
+   - Anything deferred
 
 ---
 

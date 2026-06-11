@@ -25,19 +25,19 @@ Never use the old `$:` reactive declarations. Always use runes:
 
 ```svelte
 <script lang="ts">
-    interface Props {
-        value: string;
-        disabled?: boolean;
-        onChange?: (val: string) => void;
-    }
+	interface Props {
+		value: string;
+		disabled?: boolean;
+		onChange?: (val: string) => void;
+	}
 
-    let { value, disabled = false, onChange }: Props = $props();
+	let { value, disabled = false, onChange }: Props = $props();
 
-    let isValidating = $state(false);
-    let error = $derived.by(() => {
-        // validation logic
-        return null;
-    });
+	let isValidating = $state(false);
+	let error = $derived.by(() => {
+		// validation logic
+		return null;
+	});
 </script>
 ```
 
@@ -65,16 +65,16 @@ export type ButtonTint = 'neutral' | 'primary' | 'secondary' | 'error' | 'warnin
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export type Props = Button.RootProps & {
-    /** Visual treatment. @default "solid" */
-    variant?: ButtonVariant;
-    /** Colour identity. @default "neutral" */
-    tint?: ButtonTint;
-    /** Size scale. @default "md" */
-    size?: ButtonSize;
-    /** Show a spinner and block interaction. @default false */
-    loading?: boolean;
-    /** Stretch to fill the available inline space. @default false */
-    fullWidth?: boolean;
+	/** Visual treatment. @default "solid" */
+	variant?: ButtonVariant;
+	/** Colour identity. @default "neutral" */
+	tint?: ButtonTint;
+	/** Size scale. @default "md" */
+	size?: ButtonSize;
+	/** Show a spinner and block interaction. @default false */
+	loading?: boolean;
+	/** Stretch to fill the available inline space. @default false */
+	fullWidth?: boolean;
 };
 ```
 
@@ -166,20 +166,20 @@ import { render } from 'vitest-browser-svelte';
 import Button from './Button.svelte';
 
 test('renders with children', async () => {
-    render(Button, { children: () => 'Click me' });
-    await expect.element(page.getByRole('button', { name: /click me/i })).toBeInTheDocument();
+	render(Button, { children: () => 'Click me' });
+	await expect.element(page.getByRole('button', { name: /click me/i })).toBeInTheDocument();
 });
 
 test('fires onclick', async () => {
-    const onclick = vi.fn();
-    render(Button, { onclick, children: () => 'go' });
-    await page.getByRole('button').click();
-    expect(onclick).toHaveBeenCalledOnce();
+	const onclick = vi.fn();
+	render(Button, { onclick, children: () => 'go' });
+	await page.getByRole('button').click();
+	expect(onclick).toHaveBeenCalledOnce();
 });
 
 test('is disabled when loading', async () => {
-    render(Button, { loading: true, children: () => 'go' });
-    await expect.element(page.getByRole('button')).toBeDisabled();
+	render(Button, { loading: true, children: () => 'go' });
+	await expect.element(page.getByRole('button')).toBeDisabled();
 });
 ```
 

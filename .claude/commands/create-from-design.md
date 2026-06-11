@@ -181,8 +181,8 @@ table is authoritative — apply it verbatim and skip this one. (Map by role, no
 
 1. Create a `TodoWrite` list covering all seven phases.
 2. Resolve names from `$ARGUMENTS` (or ask):
-    - PascalCase for the component (`TextField`).
-    - kebab-case for the package, paths, route, and branch (`text-field`).
+   - PascalCase for the component (`TextField`).
+   - kebab-case for the package, paths, route, and branch (`text-field`).
 3. Apply the [Design-doc resolution guard](#-design-doc-resolution-guard) — `Read` the full doc.
 4. Apply the [Scope guard](#-scope-guard-build-mvp-defer-the-rest) — extract the **IN** and
    **DEFERRED** lists and record them.
@@ -204,21 +204,21 @@ table is authoritative — apply it verbatim and skip this one. (Map by role, no
    typography, token mapping) → variant axes + CSS tokens; **key behaviours** → component logic or
    a `bits-ui` primitive; **accessibility** → roles/ARIA/keyboard.
 2. **Decide the backing** for the behaviour the doc describes:
-    - **Wrap bits-ui** when a headless primitive matches (cross-reference [`.claude/bits.md`](../bits.md)
-      and `https://bits-ui.com/docs/components/<kebab-name>/llms.txt`).
-    - **Plain bit** for presentational components with no headless behaviour.
+   - **Wrap bits-ui** when a headless primitive matches (cross-reference [`.claude/bits.md`](../bits.md)
+     and `https://bits-ui.com/docs/components/<kebab-name>/llms.txt`).
+   - **Plain bit** for presentational components with no headless behaviour.
 3. **Note the references the doc cites** (its "synthesised from" / reconciliation section) — these
    become the README **Acknowledgements** credit. Do not fetch or depend on them; the doc has
    already distilled what you need.
 4. **Launch a `code-explorer` agent** to map the closest existing `@smuit` component as a template:
 
-    ```
-    Trace components/switch/ (or components/badge/ for a presentational component)
-    end-to-end: the .svelte wrapping pattern and import order, types.ts prop
-    extension, <name>.variants.ts tv() config, <name>.css token-block + @layer
-    components structure, index.ts re-exports, and the *.test.ts browser-mode
-    fixture. Return the 6–8 patterns I must replicate for a new component.
-    ```
+   ```
+   Trace components/switch/ (or components/badge/ for a presentational component)
+   end-to-end: the .svelte wrapping pattern and import order, types.ts prop
+   extension, <name>.variants.ts tv() config, <name>.css token-block + @layer
+   components structure, index.ts re-exports, and the *.test.ts browser-mode
+   fixture. Return the 6–8 patterns I must replicate for a new component.
+   ```
 
 5. **Summarise** the implementation outline: parts → files, the chosen backing, the variant axes,
    the IN/DEFERRED boundary, the a11y model, and the closest existing template.
@@ -232,14 +232,14 @@ table is authoritative — apply it verbatim and skip this one. (Map by role, no
 **Actions:**
 
 1. Build the concrete plan **scoped to the IN list**:
-    - Every design colour/elevation/shape/type role → project token (the doc's own mapping table if
-      present; else the [standard mapping](#design-role--token-mapping-reference)).
-    - The `tv()` variant axes (`variant`, `size`, `tint`, plus any IN-scope state flags) and their
-      class names.
-    - Which parts become separate `.svelte` files (compound export) vs a single component
-      (see [`.claude/bits.md`](../bits.md) § "Composing Multi-Part Primitives").
-    - The focus/hover state strategy (focus outline + hover ramp).
-    - Any behaviour delegated to bits-ui and the props that bind through.
+   - Every design colour/elevation/shape/type role → project token (the doc's own mapping table if
+     present; else the [standard mapping](#design-role--token-mapping-reference)).
+   - The `tv()` variant axes (`variant`, `size`, `tint`, plus any IN-scope state flags) and their
+     class names.
+   - Which parts become separate `.svelte` files (compound export) vs a single component
+     (see [`.claude/bits.md`](../bits.md) § "Composing Multi-Part Primitives").
+   - The focus/hover state strategy (focus outline + hover ramp).
+   - Any behaviour delegated to bits-ui and the props that bind through.
 2. **Explicitly list the DEFERRED items** you will NOT build, so the boundary is visible in review.
 3. **Present the mapping** to the user as a table (design role → token/class) plus the file list and
    the IN/DEFERRED split. Wait for review before Phase 4.
@@ -281,14 +281,14 @@ and get explicit confirmation.
 
 1. **Start the feature worktree** (always cut from `dev`):
 
-    ```bash
-    bin/wt feature <kebab-slug>
-    cd ../smuit.worktrees/<kebab-slug>
-    pnpm install
-    git branch --show-current        # must print: feature/<kebab-slug>
-    ```
+   ```bash
+   bin/wt feature <kebab-slug>
+   cd ../smuit.worktrees/<kebab-slug>
+   pnpm install
+   git branch --show-current        # must print: feature/<kebab-slug>
+   ```
 
-    Do not skip the `cd`. All subsequent writes happen inside the worktree.
+   Do not skip the `cd`. All subsequent writes happen inside the worktree.
 
 2. **Scaffold the package** at `components/<kebab-name>/`, mirroring an existing component: - **`package.json`** — name `@wimwian-org/<name>`, `"type": "module"`,
    `"exports": { ".": "./src/index.ts" }`, `"files": ["src"]`,
@@ -327,22 +327,22 @@ and get explicit confirmation.
    per variant combination.
 
 3. **Create the demo route** at `apps/playground/src/routes/<kebab-name>/+page.svelte`:
-    - Import the component from `@wimwian-org/<name>`.
-    - Render the **IN-scope** variant × tint × size × state matrix agreed in Phase 4 — nothing
-      deferred.
-    - Add label chips matching existing demo pages (see [`components/badge/`](../../components/badge/)).
+   - Import the component from `@wimwian-org/<name>`.
+   - Render the **IN-scope** variant × tint × size × state matrix agreed in Phase 4 — nothing
+     deferred.
+   - Add label chips matching existing demo pages (see [`components/badge/`](../../components/badge/)).
 
 4. **Register the demo** in `apps/playground/src/routes/+page.svelte` — add an entry to the
    `sections` array:
 
-    ```ts
-    {
-        title: '<Component Name>',
-        group: 'Components',
-        description: '<short blurb — variants, tints, sizes; note "v1 / MVP" if partial>',
-        href: '/<kebab-name>',
-    },
-    ```
+   ```ts
+   {
+       title: '<Component Name>',
+       group: 'Components',
+       description: '<short blurb — variants, tints, sizes; note "v1 / MVP" if partial>',
+       href: '/<kebab-name>',
+   },
+   ```
 
 ---
 
@@ -355,53 +355,53 @@ and **within MVP scope** before merging.
 
 1. **Run the gauntlet** — every step green:
 
-    ```bash
-    pnpm check                                   # svelte-check (workspace)
-    pnpm lint                                    # eslint
-    pnpm --filter @wimwian-org/<name> check            # the component's own types
-    pnpm test:browser                            # browser-mode component tests
-    pnpm --filter @wimwian-org/playground build        # demo site builds
-    ```
+   ```bash
+   pnpm check                                   # svelte-check (workspace)
+   pnpm lint                                    # eslint
+   pnpm --filter @wimwian-org/<name> check            # the component's own types
+   pnpm test:browser                            # browser-mode component tests
+   pnpm --filter @wimwian-org/playground build        # demo site builds
+   ```
 
-    Any failure: stop, fix, re-run. Do not commit red. (See [`CLAUDE.md`](../../CLAUDE.md) §
-    "Before Shipping".)
+   Any failure: stop, fix, re-run. Do not commit red. (See [`CLAUDE.md`](../../CLAUDE.md) §
+   "Before Shipping".)
 
 2. **Launch `code-reviewer` agents in parallel:**
 
-    ```
-    Agent 1 (design fidelity + scope):
-    Compare components/<name>/ against <design-doc-path>. Verify every IN-scope
-    anatomy part, variant, design element, and key behaviour is implemented, and
-    that NO deferred item leaked in (no deferred prop, variant, CSS branch, test,
-    or demo cell). Confirm the README Scope section matches the doc's MVP split.
-    ```
+   ```
+   Agent 1 (design fidelity + scope):
+   Compare components/<name>/ against <design-doc-path>. Verify every IN-scope
+   anatomy part, variant, design element, and key behaviour is implemented, and
+   that NO deferred item leaked in (no deferred prop, variant, CSS branch, test,
+   or demo cell). Confirm the README Scope section matches the doc's MVP split.
+   ```
 
-    ```
-    Agent 2 (token + theming fidelity):
-    Review for leftover upstream artefacts — @mui/*, @material/*, @smui/* imports,
-    hardcoded hex, .dark selectors, raw opacity for disabled. Verify every colour
-    reads --color-c-*/--color-g-*/surface tokens (or the doc's own token table),
-    elevation uses the shadow tokens, CSS uses @reference "@wimwian-org/theme" + @layer
-    components with a tokens-first block, and variants go through tailwind-variants.
-    ```
+   ```
+   Agent 2 (token + theming fidelity):
+   Review for leftover upstream artefacts — @mui/*, @material/*, @smui/* imports,
+   hardcoded hex, .dark selectors, raw opacity for disabled. Verify every colour
+   reads --color-c-*/--color-g-*/surface tokens (or the doc's own token table),
+   elevation uses the shadow tokens, CSS uses @reference "@wimwian-org/theme" + @layer
+   components with a tokens-first block, and variants go through tailwind-variants.
+   ```
 
-    ```
-    Agent 3 (accessibility):
-    Review against .claude/component.md a11y checklist. If a bits-ui primitive backs
-    the behaviour, verify it's preserved and not double-wrapped. Check the doc's
-    accessibility section is honoured: label/description association, roles, keyboard
-    operability, visible focus via outline-c-500, ARIA, and AA contrast in BOTH
-    light and dark.
-    ```
+   ```
+   Agent 3 (accessibility):
+   Review against .claude/component.md a11y checklist. If a bits-ui primitive backs
+   the behaviour, verify it's preserved and not double-wrapped. Check the doc's
+   accessibility section is honoured: label/description association, roles, keyboard
+   operability, visible focus via outline-c-500, ARIA, and AA contrast in BOTH
+   light and dark.
+   ```
 
-    ```
-    Agent 4 (Svelte 5 + conventions):
-    Confirm $props()/$state/$derived/$bindable(null) (no on:*, $$props, $:,
-    createEventDispatcher). Verify package.json shape (exports, files, peerDeps
-    @wimwian-org/theme workspace:*, no upstream deps), index.ts re-exports
-    component+variants+types, types.ts extends the right base, and the *.test.ts +
-    *.variants.test.ts cover every IN-scope axis.
-    ```
+   ```
+   Agent 4 (Svelte 5 + conventions):
+   Confirm $props()/$state/$derived/$bindable(null) (no on:*, $$props, $:,
+   createEventDispatcher). Verify package.json shape (exports, files, peerDeps
+   @wimwian-org/theme workspace:*, no upstream deps), index.ts re-exports
+   component+variants+types, types.ts extends the right base, and the *.test.ts +
+   *.variants.test.ts cover every IN-scope axis.
+   ```
 
 3. **Visually verify in both themes.** Run `pnpm --filter @wimwian-org/playground dev`, open
    `/<kebab-name>`, and check: all in-scope variants render in light + dark, focus indicator visible
@@ -421,57 +421,57 @@ and **within MVP scope** before merging.
 
 2. **Commit** with a conventional message (use `pnpm commit`, or `git commit -m` directly):
 
-    ```bash
-    git add .
-    git commit -m "feat(<kebab-slug>): add <Component> (v1) from design spec"
-    ```
+   ```bash
+   git add .
+   git commit -m "feat(<kebab-slug>): add <Component> (v1) from design spec"
+   ```
 
-    Hooks fire: `pre-commit` (prettier + eslint + check), `commit-msg` (commitlint), `post-commit`
-    (`scripts/auto-changeset.mjs` writes a minor-bump `.changeset/auto-*.md` for `feat:` and amends
-    it into the same commit).
+   Hooks fire: `pre-commit` (prettier + eslint + check), `commit-msg` (commitlint), `post-commit`
+   (`scripts/auto-changeset.mjs` writes a minor-bump `.changeset/auto-*.md` for `feat:` and amends
+   it into the same commit).
 
 3. **Verify the changeset landed:**
 
-    ```bash
-    git show --stat HEAD | grep changeset
-    git status                  # clean
-    ```
+   ```bash
+   git show --stat HEAD | grep changeset
+   git status                  # clean
+   ```
 
 4. **Refresh the homepage status snapshot:**
 
-    ```bash
-    pnpm status
-    ```
+   ```bash
+   pnpm status
+   ```
 
 5. **Pause for user approval, then land.** From the primary checkout (where `dev` lives), per
    [`.claude/gitflow.md`](../gitflow.md):
 
-    ```bash
-    cd /Users/apancha/WebstormProjects/smuit
-    bin/wt rm <kebab-slug>                  # remove worktree FIRST (frees the branch)
-    git flow feature finish <kebab-slug>    # merges into local dev, deletes the branch
-    ```
+   ```bash
+   cd /Users/apancha/WebstormProjects/smuit
+   bin/wt rm <kebab-slug>                  # remove worktree FIRST (frees the branch)
+   git flow feature finish <kebab-slug>    # merges into local dev, deletes the branch
+   ```
 
-    `origin` `dev` is protected — it only accepts a PR from a git-flow branch. Push the feature
-    branch and open a PR into `dev`:
+   `origin` `dev` is protected — it only accepts a PR from a git-flow branch. Push the feature
+   branch and open a PR into `dev`:
 
-    ```bash
-    git push -u origin feature/<kebab-slug>
-    gh pr create --base dev --head feature/<kebab-slug> --title "feat(<slug>): add <Component> (v1)" --body "…"
-    ```
+   ```bash
+   git push -u origin feature/<kebab-slug>
+   gh pr create --base dev --head feature/<kebab-slug> --title "feat(<slug>): add <Component> (v1)" --body "…"
+   ```
 
 6. **Mark all todos complete** and produce a summary:
-    - Component name + the design doc it was built from (path).
-    - Backing: `bits-ui <primitive>` or plain presentational.
-    - File list (`components/<name>/…`, `apps/playground/src/routes/<name>/…`).
-    - The IN-scope feature set shipped, and the DEFERRED set held for next (matching the doc).
-    - Token mapping applied (the doc's table, or the standard mapping).
-    - Confirmation the README has both a **Scope** section and an **Acknowledgements** credit for the
-      doc's cited references.
-    - Variant × tint × size × state matrix the demo covers.
-    - Test count (component + variants).
-    - Changeset file and bump kind.
-    - Anything deferred or open.
+   - Component name + the design doc it was built from (path).
+   - Backing: `bits-ui <primitive>` or plain presentational.
+   - File list (`components/<name>/…`, `apps/playground/src/routes/<name>/…`).
+   - The IN-scope feature set shipped, and the DEFERRED set held for next (matching the doc).
+   - Token mapping applied (the doc's table, or the standard mapping).
+   - Confirmation the README has both a **Scope** section and an **Acknowledgements** credit for the
+     doc's cited references.
+   - Variant × tint × size × state matrix the demo covers.
+   - Test count (component + variants).
+   - Changeset file and bump kind.
+   - Anything deferred or open.
 
 ---
 

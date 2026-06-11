@@ -25,26 +25,26 @@ packages/theme/src/
 
 ```css
 :root {
-    color-scheme: light;
-    --L: initial;
-    --D: ;
+	color-scheme: light;
+	--L: initial;
+	--D: ;
 }
 @media (prefers-color-scheme: dark) {
-    :root {
-        color-scheme: dark;
-        --L: ;
-        --D: initial;
-    }
+	:root {
+		color-scheme: dark;
+		--L: ;
+		--D: initial;
+	}
 }
 html[data-theme='light'] {
-    color-scheme: light;
-    --L: initial;
-    --D: ;
+	color-scheme: light;
+	--L: initial;
+	--D: ;
 }
 html[data-theme='dark'] {
-    color-scheme: dark;
-    --L: ;
-    --D: initial;
+	color-scheme: dark;
+	--L: ;
+	--D: initial;
 }
 ```
 
@@ -110,9 +110,9 @@ By default, `--color-c-*` aliases `--color-g-*`. A **tint utility** (`.primary`,
 
 ```css
 @utility primary {
-    --color-c-0: var(--L, var(--color-primary-50)) var(--D, var(--color-primary-950));
-    --color-c-100: var(--L, var(--color-primary-100)) var(--D, var(--color-primary-900));
-    /* ... */
+	--color-c-0: var(--L, var(--color-primary-50)) var(--D, var(--color-primary-950));
+	--color-c-100: var(--L, var(--color-primary-100)) var(--D, var(--color-primary-900));
+	/* ... */
 }
 ```
 
@@ -179,13 +179,13 @@ Each bit has its own CSS file beside it (in the `components/` workspace):
 @reference "@wimwian-org/theme";
 
 @layer components {
-    .btn {
-        @apply focus-visible:outline-c-500 inline-flex cursor-pointer items-center justify-center rounded-md border font-semibold whitespace-nowrap transition-colors outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50;
-    }
-    .btn-solid {
-        @apply bg-c-600 text-c-0 border-c-600 hover:bg-c-700 hover:border-c-700 active:bg-c-800 active:border-c-800;
-    }
-    /* ... */
+	.btn {
+		@apply focus-visible:outline-c-500 inline-flex cursor-pointer items-center justify-center rounded-md border font-semibold whitespace-nowrap transition-colors outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50;
+	}
+	.btn-solid {
+		@apply bg-c-600 text-c-0 border-c-600 hover:bg-c-700 hover:border-c-700 active:bg-c-800 active:border-c-800;
+	}
+	/* ... */
 }
 ```
 

@@ -17,16 +17,16 @@ CSS-only package — no Svelte, no JS bundler step. Distribution is direct CSS s
 ```json
 // packages/theme/package.json (exports)
 {
-    "exports": {
-        ".": "./src/index.css",
-        "./tailwind": "./src/tailwind.css",
-        "./tokens": "./src/tokens.css",
-        "./tints": "./src/tints.css",
-        "./typography": "./src/typography.css",
-        "./package.json": "./package.json"
-    },
-    "files": ["src"],
-    "peerDependencies": { "tailwindcss": "^4.0.0" }
+	"exports": {
+		".": "./src/index.css",
+		"./tailwind": "./src/tailwind.css",
+		"./tokens": "./src/tokens.css",
+		"./tints": "./src/tints.css",
+		"./typography": "./src/typography.css",
+		"./package.json": "./package.json"
+	},
+	"files": ["src"],
+	"peerDependencies": { "tailwindcss": "^4.0.0" }
 }
 ```
 
@@ -47,13 +47,13 @@ pnpm add -D @sveltejs/package publint
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 export default {
-    preprocess: vitePreprocess(),
-    package: {
-        source: 'src',
-        dir: 'dist',
-        emitTypes: true,
-        exports: (filepath) => !filepath.endsWith('.test.ts') && !filepath.endsWith('.spec.ts'),
-    },
+	preprocess: vitePreprocess(),
+	package: {
+		source: 'src',
+		dir: 'dist',
+		emitTypes: true,
+		exports: (filepath) => !filepath.endsWith('.test.ts') && !filepath.endsWith('.spec.ts')
+	}
 };
 ```
 
@@ -61,24 +61,24 @@ Canonical `package.json` shape for a bit:
 
 ```json
 {
-    "name": "@wimwian-org/button",
-    "version": "0.0.0",
-    "type": "module",
-    "files": ["dist", "!dist/**/*.test.*"],
-    "svelte": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "svelte": "./dist/index.js"
-        }
-    },
-    "peerDependencies": {
-        "svelte": "^5.0.0",
-        "tailwindcss": "^4.0.0",
-        "bits-ui": "^2.0.0"
-    },
-    "sideEffects": ["**/*.css"]
+	"name": "@wimwian-org/button",
+	"version": "0.0.0",
+	"type": "module",
+	"files": ["dist", "!dist/**/*.test.*"],
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0",
+		"tailwindcss": "^4.0.0",
+		"bits-ui": "^2.0.0"
+	},
+	"sideEffects": ["**/*.css"]
 }
 ```
 
@@ -102,12 +102,12 @@ pnpm exec changeset init
 ```json
 // .changeset/config.json (current)
 {
-    "$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
-    "changelog": "@changesets/cli/changelog",
-    "commit": false,
-    "access": "public",
-    "baseBranch": "master",
-    "updateInternalDependencies": "patch"
+	"$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+	"changelog": "@changesets/cli/changelog",
+	"commit": false,
+	"access": "public",
+	"baseBranch": "master",
+	"updateInternalDependencies": "patch"
 }
 ```
 
@@ -145,7 +145,7 @@ import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
 
 function git(cmd) {
-    return execSync(`git ${cmd}`, { encoding: 'utf8' }).trim();
+	return execSync(`git ${cmd}`, { encoding: 'utf8' }).trim();
 }
 
 // Skip merge commits.
@@ -167,11 +167,17 @@ else process.exit(0);
 
 // --diff-filter=A: only newly-added paths. A commit that merely *touches*
 // a pre-existing .changeset/auto-*.md must still generate its own changeset.
-const addedFiles = git('show --diff-filter=A --pretty= --name-only HEAD').split('\n').filter(Boolean);
+const addedFiles = git('show --diff-filter=A --pretty= --name-only HEAD')
+	.split('\n')
+	.filter(Boolean);
 
 // Defer to a hand-written changeset newly added in this commit.
 const hasManual = addedFiles.some(
-    (f) => f.startsWith('.changeset/') && f.endsWith('.md') && !f.includes('auto-') && f !== '.changeset/README.md',
+	(f) =>
+		f.startsWith('.changeset/') &&
+		f.endsWith('.md') &&
+		!f.includes('auto-') &&
+		f !== '.changeset/README.md'
 );
 if (hasManual) process.exit(0);
 
@@ -198,40 +204,40 @@ Why `post-commit` + amend (not `prepare-commit-msg`): with `git commit -m`, git 
 ```yaml
 name: CI
 on:
-    push: { branches: [master, dev] }
-    pull_request: { branches: [master, dev] }
+  push: { branches: [master, dev] }
+  pull_request: { branches: [master, dev] }
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-              with: { fetch-depth: 0 }
-            - uses: pnpm/action-setup@v4
-            - uses: actions/setup-node@v4
-              with: { node-version: 24, cache: pnpm }
-            - run: pnpm install --frozen-lockfile
-            - run: pnpm check
-            - run: pnpm lint
-            - run: pnpm test --run
-            - run: pnpm --filter @wimwian-org/playground build
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - run: pnpm lint
+      - run: pnpm test --run
+      - run: pnpm --filter @wimwian-org/playground build
 
-    changeset-consumed:
-        if: github.event_name == 'pull_request' && github.base_ref == 'master'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-              with: { fetch-depth: 0 }
-            - uses: pnpm/action-setup@v4
-            - uses: actions/setup-node@v4
-              with: { node-version: 24, cache: pnpm }
-            - run: pnpm install --frozen-lockfile
-            - name: Verify all changesets are consumed
-              run: |
-                  if ls .changeset/*.md 2>/dev/null | grep -v README.md | grep -q .; then
-                    echo "::error::Pending changesets on a release/hotfix branch. Run 'pnpm changeset version'."
-                    exit 1
-                  fi
+  changeset-consumed:
+    if: github.event_name == 'pull_request' && github.base_ref == 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Verify all changesets are consumed
+        run: |
+          if ls .changeset/*.md 2>/dev/null | grep -v README.md | grep -q .; then
+            echo "::error::Pending changesets on a release/hotfix branch. Run 'pnpm changeset version'."
+            exit 1
+          fi
 ```
 
 ### Release (`.github/workflows/release.yml`)
@@ -241,35 +247,35 @@ Triggered when `master` advances. `changeset version` already ran on the release
 ```yaml
 name: Release
 on:
-    push:
-        branches: [master]
-        tags: ['v*']
+  push:
+    branches: [master]
+    tags: ['v*']
 
 permissions:
-    contents: write
-    id-token: write # npm provenance
+  contents: write
+  id-token: write # npm provenance
 
 jobs:
-    publish:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-              with: { fetch-depth: 0 }
-            - uses: pnpm/action-setup@v4
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: 24
-                  cache: pnpm
-                  registry-url: 'https://registry.npmjs.org'
-            - run: pnpm install --frozen-lockfile
-            # changeset publish is idempotent — safe to run on every master push.
-            - run: pnpm changeset publish
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-                  NPM_CONFIG_PROVENANCE: 'true'
-            - run: git push --follow-tags
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
+      - run: pnpm install --frozen-lockfile
+      # changeset publish is idempotent — safe to run on every master push.
+      - run: pnpm changeset publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
+      - run: git push --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## 5. Versioning Policy

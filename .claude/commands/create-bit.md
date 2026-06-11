@@ -58,12 +58,12 @@ Before you propose architecture, re-read these in order:
 
 1. Create a todo list covering all seven phases.
 2. If `$ARGUMENTS` is empty or ambiguous, ask the user:
-    - Which `bits-ui` primitive? Reference the list in [`.claude/bits.md`](../bits.md) (Accordion, Alert Dialog, Aspect Ratio, Avatar, Button, Calendar, Checkbox, Collapsible, Combobox, Command, Context Menu, Date Field, Date Picker, Date Range Field, Date Range Picker, Dialog, Dropdown Menu, Label, Link Preview, Menubar, Meter, Navigation Menu, Pagination, Pin Input, Popover, Progress, Radio Group, Range Calendar, Rating Group, Scroll Area, Select, Separator, Slider, Switch, Tabs, Time Field, Time Range Field, Toggle, Toggle Group, Toolbar, Tooltip).
-    - Is there a specific surface area you care about? (e.g. only the floating panel for Popover, not the trigger button.)
-    - Any unique props or states the user already knows they want?
+   - Which `bits-ui` primitive? Reference the list in [`.claude/bits.md`](../bits.md) (Accordion, Alert Dialog, Aspect Ratio, Avatar, Button, Calendar, Checkbox, Collapsible, Combobox, Command, Context Menu, Date Field, Date Picker, Date Range Field, Date Range Picker, Dialog, Dropdown Menu, Label, Link Preview, Menubar, Meter, Navigation Menu, Pagination, Pin Input, Popover, Progress, Radio Group, Range Calendar, Rating Group, Scroll Area, Select, Separator, Slider, Switch, Tabs, Time Field, Time Range Field, Toggle, Toggle Group, Toolbar, Tooltip).
+   - Is there a specific surface area you care about? (e.g. only the floating panel for Popover, not the trigger button.)
+   - Any unique props or states the user already knows they want?
 3. Confirm the slug you'll use for the package, branch, and route:
-    - PascalCase for the component name (`Dialog`, `Tabs`, `Tooltip`).
-    - kebab-case for the package, paths, and the git-flow branch (`dialog`, `tabs`, `tooltip`).
+   - PascalCase for the component name (`Dialog`, `Tabs`, `Tooltip`).
+   - kebab-case for the package, paths, and the git-flow branch (`dialog`, `tabs`, `tooltip`).
 4. **Check it doesn't already exist** at `components/<kebab-name>/`. If it does, stop and tell the user — use the standard feature-branch flow to modify it instead.
 
 ---
@@ -76,27 +76,27 @@ Before you propose architecture, re-read these in order:
 
 1. **Fetch the bits-ui docs** for the primitive via `WebFetch`. The LLM-optimised URL is:
 
-    ```
-    https://bits-ui.com/docs/components/<kebab-name>/llms.txt
-    ```
+   ```
+   https://bits-ui.com/docs/components/<kebab-name>/llms.txt
+   ```
 
-    Pay attention to:
-    - The parts list (`Root`, `Trigger`, `Content`, `Portal`, …) — tells you single-export vs compound-export.
-    - Required props on `Root` and which are bindable.
-    - Built-in keyboard / focus behaviour you must NOT reimplement.
-    - Data attributes (`data-state`, `data-disabled`, …) you can hook for CSS state targeting.
+   Pay attention to:
+   - The parts list (`Root`, `Trigger`, `Content`, `Portal`, …) — tells you single-export vs compound-export.
+   - Required props on `Root` and which are bindable.
+   - Built-in keyboard / focus behaviour you must NOT reimplement.
+   - Data attributes (`data-state`, `data-disabled`, …) you can hook for CSS state targeting.
 
 2. **Launch a `code-explorer` agent** to map the canonical Button bit + any analogous existing wrapper:
 
-    ```
-    Trace components/button/ end-to-end: Button.svelte's wrapping pattern and
-    import order (bits-ui → '@wimwian-org/theme' → './button.css' → './button.variants'
-    → 'tailwind-merge' → './types'), types.ts's prop extension via the bits-ui
-    Root props + variant axes, button.variants.ts's tv() config, button.css's
-    token-block + @layer components structure, and Button.test.ts's browser-mode
-    fixture (createRawSnippet for children). Return the 6–8 patterns I must
-    replicate in a new bit, and name the closest analogous existing component.
-    ```
+   ```
+   Trace components/button/ end-to-end: Button.svelte's wrapping pattern and
+   import order (bits-ui → '@wimwian-org/theme' → './button.css' → './button.variants'
+   → 'tailwind-merge' → './types'), types.ts's prop extension via the bits-ui
+   Root props + variant axes, button.variants.ts's tv() config, button.css's
+   token-block + @layer components structure, and Button.test.ts's browser-mode
+   fixture (createRawSnippet for children). Return the 6–8 patterns I must
+   replicate in a new bit, and name the closest analogous existing component.
+   ```
 
 3. **Read the files the agent identifies**, plus a sibling that wraps a similar primitive (e.g. [`components/switch/`](../../components/switch/) for a compound thumb part). Don't trust the agent's summary without reading the cited source.
 
@@ -131,28 +131,28 @@ If the user says "whatever you think is best", recommend based on the Button bit
 
 1. **Launch 2–3 `code-architect` agents in parallel**, each with a different lens:
 
-    ```
-    Agent 1 (minimal-changes):
-    Design <Component>.svelte as a single-export wrapper of bits-ui <Primitive>,
-    matching the Button bit exactly. Inherit variant/tint/size axes from Button's
-    tv() config. Return file scaffolds for *.svelte, *.css, *.variants.ts,
-    *.variants.test.ts, types.ts, index.ts, *.test.ts, plus the prop type
-    signature and the variant class composition.
-    ```
+   ```
+   Agent 1 (minimal-changes):
+   Design <Component>.svelte as a single-export wrapper of bits-ui <Primitive>,
+   matching the Button bit exactly. Inherit variant/tint/size axes from Button's
+   tv() config. Return file scaffolds for *.svelte, *.css, *.variants.ts,
+   *.variants.test.ts, types.ts, index.ts, *.test.ts, plus the prop type
+   signature and the variant class composition.
+   ```
 
-    ```
-    Agent 2 (idiomatic-bits-ui):
-    Design <Component> following bits-ui's compound-export pattern (Root/Trigger/
-    Content/…) if the primitive exposes multiple parts. Return the file layout,
-    each subpart's wrapper, and the consumer API.
-    ```
+   ```
+   Agent 2 (idiomatic-bits-ui):
+   Design <Component> following bits-ui's compound-export pattern (Root/Trigger/
+   Content/…) if the primitive exposes multiple parts. Return the file layout,
+   each subpart's wrapper, and the consumer API.
+   ```
 
-    ```
-    Agent 3 (pragmatic-balance):
-    Design <Component> with a single-export default for the common case but expose
-    subparts via named exports for advanced use. Compare the resulting consumer API
-    to the other two approaches.
-    ```
+   ```
+   Agent 3 (pragmatic-balance):
+   Design <Component> with a single-export default for the common case but expose
+   subparts via named exports for advanced use. Compare the resulting consumer API
+   to the other two approaches.
+   ```
 
 2. **Read all files** each agent flags. Don't trust proposals without reading the cited source.
 
@@ -168,77 +168,85 @@ If the user says "whatever you think is best", recommend based on the Button bit
 
 1. **Start the feature worktree via `bin/wt` — always from `dev`.**
 
-    `bin/wt feature` creates `feature/<slug>` from the current `dev` HEAD in a sibling worktree. Never piggyback a new bit on an in-flight feature branch.
+   `bin/wt feature` creates `feature/<slug>` from the current `dev` HEAD in a sibling worktree. Never piggyback a new bit on an in-flight feature branch.
 
-    ```bash
-    # From the primary checkout (on dev). bin/wt fetches origin/dev and branches off it.
-    bin/wt feature <kebab-slug>
+   ```bash
+   # From the primary checkout (on dev). bin/wt fetches origin/dev and branches off it.
+   bin/wt feature <kebab-slug>
 
-    # Move into the new worktree. THIS is where all subsequent writes happen.
-    cd ../smuit.worktrees/<kebab-slug>
+   # Move into the new worktree. THIS is where all subsequent writes happen.
+   cd ../smuit.worktrees/<kebab-slug>
 
-    # Install deps in the worktree (cheap — pnpm hardlinks from the shared store).
-    pnpm install
+   # Install deps in the worktree (cheap — pnpm hardlinks from the shared store).
+   pnpm install
 
-    # Verify before writing anything.
-    git branch --show-current       # must print: feature/<kebab-slug>
-    git log --oneline -3            # parent should be dev's latest, not stale
-    ```
+   # Verify before writing anything.
+   git branch --show-current       # must print: feature/<kebab-slug>
+   git log --oneline -3            # parent should be dev's latest, not stale
+   ```
 
-    **Do not skip the `cd`.** Staying in the primary checkout means editing `dev` — forbidden by the [Hard precondition](#-hard-precondition-feature-branch--worktree-before-any-write).
+   **Do not skip the `cd`.** Staying in the primary checkout means editing `dev` — forbidden by the [Hard precondition](#-hard-precondition-feature-branch--worktree-before-any-write).
 
 2. **Scaffold the package** at `components/<kebab-name>/`, mirroring [`components/button/`](../../components/button/):
-    - **`package.json`** — name `@wimwian-org/<name>`, `"type": "module"`, `"exports": { ".": "./src/index.ts" }`, `"files": ["src"]`, `"publishConfig": { "access": "public" }`, MIT author/license. `dependencies`: `bits-ui`, `tailwind-merge`, `tailwind-variants`. `peerDependencies`: `@wimwian-org/theme: workspace:*`, `svelte: ^5.0.0`, `tailwindcss: ^4.0.0`. `devDependencies` mirror a sibling. Copy `components/button/package.json` and edit.
-    - **`tsconfig.json`** — copy from a sibling component.
-    - **`README.md`**, **`LICENSE`**, **`CHANGELOG.md`** (initial) — match siblings.
-    - **`src/` files** (each begins with the `@wimwian-org/<name>` MIT license-header comment block, as in existing files):
-        - **`<Component>.svelte`** — start from the [Button template](../../components/button/src/Button.svelte). Import order:
+   - **`package.json`** — name `@wimwian-org/<name>`, `"type": "module"`, `"exports": { ".": "./src/index.ts" }`, `"files": ["src"]`, `"publishConfig": { "access": "public" }`, MIT author/license. `dependencies`: `bits-ui`, `tailwind-merge`, `tailwind-variants`. `peerDependencies`: `@wimwian-org/theme: workspace:*`, `svelte: ^5.0.0`, `tailwindcss: ^4.0.0`. `devDependencies` mirror a sibling. Copy `components/button/package.json` and edit.
+   - **`tsconfig.json`** — copy from a sibling component.
+   - **`README.md`**, **`LICENSE`**, **`CHANGELOG.md`** (initial) — match siblings.
+   - **`src/` files** (each begins with the `@wimwian-org/<name>` MIT license-header comment block, as in existing files):
+     - **`<Component>.svelte`** — start from the [Button template](../../components/button/src/Button.svelte). Import order:
 
-            ```svelte
-            <script lang="ts">
-                import { ComponentName as BitsComponent } from 'bits-ui';
-                import '@wimwian-org/theme';
-                import './component-name.css';
-                import { componentName } from './component-name.variants';
-                import { twMerge } from 'tailwind-merge';
-                import type { Props } from './types';
+       ```svelte
+       <script lang="ts">
+       	import { ComponentName as BitsComponent } from 'bits-ui';
+       	import '@wimwian-org/theme';
+       	import './component-name.css';
+       	import { componentName } from './component-name.variants';
+       	import { twMerge } from 'tailwind-merge';
+       	import type { Props } from './types';
 
-                let {
-                    variant = 'solid',
-                    tint = 'neutral',
-                    size = 'md',
-                    /* state flags */
-                    class: className = '',
-                    children,
-                    ref = $bindable<HTMLElement | null>(null),
-                    ...restProps
-                }: Props = $props();
+       	let {
+       		variant = 'solid',
+       		tint = 'neutral',
+       		size = 'md',
+       		/* state flags */
+       		class: className = '',
+       		children,
+       		ref = $bindable<HTMLElement | null>(null),
+       		...restProps
+       	}: Props = $props();
 
-                let cls = $derived(twMerge(componentName({ variant, size, tint }), String(className ?? '')));
-            </script>
+       	let cls = $derived(
+       		twMerge(componentName({ variant, size, tint }), String(className ?? ''))
+       	);
+       </script>
 
-            <BitsComponent.Root bind:ref class={cls} data-variant={variant} data-tint={tint} {...restProps}>
-                {@render children?.()}
-            </BitsComponent.Root>
-            ```
+       <BitsComponent.Root
+       	bind:ref
+       	class={cls}
+       	data-variant={variant}
+       	data-tint={tint}
+       	{...restProps}
+       >
+       	{@render children?.()}
+       </BitsComponent.Root>
+       ```
 
-        - **`component-name.variants.ts`** — `tv()` config exporting the `componentName` const and `ComponentNameVariants = VariantProps<typeof componentName>` type. Base class is a short semantic prefix; variants map to component classes; `tint` maps to the tint utility names; set `defaultVariants`.
-        - **`component-name.css`** — `@reference "@wimwian-org/theme";` then all rules inside `@layer components { … }`. **Tokens-first**: declare a `--…` token block at the top of the base class, then reference via `var()` below. All colours via `--color-c-*` / `--color-g-*`; never inline hex/rgb; no `.dark` selector.
-        - **`types.ts`** — `Props` derived from the variants (`ComponentNameVariant`/`Tint`/`Size` via `NonNullable<ComponentNameVariants[...]>`) combined with `BitsComponent.RootProps & OwnProps`. Export the axis types.
-        - **`index.ts`** — license header; re-export the default component, the `componentName` variants const + `ComponentNameVariants` type, and the `Props`/axis types (see [`components/badge/src/index.ts`](../../components/badge/src/index.ts)).
-        - **`<Component>.test.ts`** — Vitest **browser-mode**: `import { page } from '@vitest/browser/context'`, `import { render } from 'vitest-browser-svelte'`, `createRawSnippet` from `svelte` for the `children` prop. Minimum coverage per [`.claude/component.md`](../component.md) § 8 and [`.claude/testing.md`](../testing.md).
-        - **`component-name.variants.test.ts`** — assert the `tv()` config returns the expected class strings per variant combination.
+     - **`component-name.variants.ts`** — `tv()` config exporting the `componentName` const and `ComponentNameVariants = VariantProps<typeof componentName>` type. Base class is a short semantic prefix; variants map to component classes; `tint` maps to the tint utility names; set `defaultVariants`.
+     - **`component-name.css`** — `@reference "@wimwian-org/theme";` then all rules inside `@layer components { … }`. **Tokens-first**: declare a `--…` token block at the top of the base class, then reference via `var()` below. All colours via `--color-c-*` / `--color-g-*`; never inline hex/rgb; no `.dark` selector.
+     - **`types.ts`** — `Props` derived from the variants (`ComponentNameVariant`/`Tint`/`Size` via `NonNullable<ComponentNameVariants[...]>`) combined with `BitsComponent.RootProps & OwnProps`. Export the axis types.
+     - **`index.ts`** — license header; re-export the default component, the `componentName` variants const + `ComponentNameVariants` type, and the `Props`/axis types (see [`components/badge/src/index.ts`](../../components/badge/src/index.ts)).
+     - **`<Component>.test.ts`** — Vitest **browser-mode**: `import { page } from '@vitest/browser/context'`, `import { render } from 'vitest-browser-svelte'`, `createRawSnippet` from `svelte` for the `children` prop. Minimum coverage per [`.claude/component.md`](../component.md) § 8 and [`.claude/testing.md`](../testing.md).
+     - **`component-name.variants.test.ts`** — assert the `tv()` config returns the expected class strings per variant combination.
 
 3. **Create the demo route** at `apps/playground/src/routes/<kebab-slug>/+page.svelte`:
-    - Imports the bit from `@wimwian-org/<name>`.
-    - Renders every variant × tint × size matrix agreed in Phase 3.
-    - Adds label chips matching the existing demo pages; state-toggle buttons for interactive state (e.g. open/closed for Dialog).
+   - Imports the bit from `@wimwian-org/<name>`.
+   - Renders every variant × tint × size matrix agreed in Phase 3.
+   - Adds label chips matching the existing demo pages; state-toggle buttons for interactive state (e.g. open/closed for Dialog).
 
 4. **Register the demo** in `apps/playground/src/routes/+page.svelte` — add an entry to the `sections` array:
 
-    ```ts
-    { title: '<Component Name>', group: '<Composition | Feedback | Form Field | Visual Element | Stylesheet>', description: '<short blurb>', href: '/<kebab-slug>' },
-    ```
+   ```ts
+   { title: '<Component Name>', group: '<Composition | Feedback | Form Field | Visual Element | Stylesheet>', description: '<short blurb>', href: '/<kebab-slug>' },
+   ```
 
 ---
 
@@ -250,42 +258,42 @@ If the user says "whatever you think is best", recommend based on the Button bit
 
 1. **Run the gauntlet** — every step green (see [`CLAUDE.md`](../../CLAUDE.md) § "Before Shipping"):
 
-    ```bash
-    pnpm check                                   # svelte-check (workspace)
-    pnpm lint                                    # eslint
-    pnpm --filter @wimwian-org/<name> check              # the component's own types
-    pnpm test:browser                            # browser-mode component tests
-    pnpm --filter @wimwian-org/playground build          # demo site builds
-    ```
+   ```bash
+   pnpm check                                   # svelte-check (workspace)
+   pnpm lint                                    # eslint
+   pnpm --filter @wimwian-org/<name> check              # the component's own types
+   pnpm test:browser                            # browser-mode component tests
+   pnpm --filter @wimwian-org/playground build          # demo site builds
+   ```
 
-    Any failure: stop, fix, re-run. Do not commit red.
+   Any failure: stop, fix, re-run. Do not commit red.
 
 2. **Launch 3 `code-reviewer` agents in parallel** with project context:
 
-    ```
-    Agent 1 (conventions):
-    Review components/<name>/ against CLAUDE.md, .claude/bits.md, .claude/component.md,
-    .claude/variants.md, .claude/styling.md. Flag any deviation: hardcoded colours,
-    missing @layer components / @reference "@wimwian-org/theme", missing data-* attrs, missing
-    ref bindable, prop type not extending the bits-ui Root props, variant composition
-    not going through tailwind-variants, package.json shape (exports/files/peerDeps
-    @wimwian-org/theme workspace:*).
-    ```
+   ```
+   Agent 1 (conventions):
+   Review components/<name>/ against CLAUDE.md, .claude/bits.md, .claude/component.md,
+   .claude/variants.md, .claude/styling.md. Flag any deviation: hardcoded colours,
+   missing @layer components / @reference "@wimwian-org/theme", missing data-* attrs, missing
+   ref bindable, prop type not extending the bits-ui Root props, variant composition
+   not going through tailwind-variants, package.json shape (exports/files/peerDeps
+   @wimwian-org/theme workspace:*).
+   ```
 
-    ```
-    Agent 2 (accessibility):
-    Review the new bit for the a11y checklist in .claude/component.md § 6. Verify the
-    bits-ui primitive's a11y is preserved and not double-wrapped (semantic roles,
-    focus indicators via outline-c-500, aria-* attributes, keyboard nav). Confirm AA
-    contrast (4.5:1 text / 3:1 UI) in BOTH light and dark via the token scales.
-    ```
+   ```
+   Agent 2 (accessibility):
+   Review the new bit for the a11y checklist in .claude/component.md § 6. Verify the
+   bits-ui primitive's a11y is preserved and not double-wrapped (semantic roles,
+   focus indicators via outline-c-500, aria-* attributes, keyboard nav). Confirm AA
+   contrast (4.5:1 text / 3:1 UI) in BOTH light and dark via the token scales.
+   ```
 
-    ```
-    Agent 3 (test coverage):
-    Review the *.test.ts and *.variants.test.ts against .claude/testing.md. Confirm
-    every variant/size/tint axis has a test, every state flag has a test, event
-    forwarding is verified, and ref binding is checked.
-    ```
+   ```
+   Agent 3 (test coverage):
+   Review the *.test.ts and *.variants.test.ts against .claude/testing.md. Confirm
+   every variant/size/tint axis has a test, every state flag has a test, event
+   forwarding is verified, and ref binding is checked.
+   ```
 
 3. **Visually verify in both themes.** Run `pnpm --filter @wimwian-org/playground dev`, open `/<kebab-slug>`, and check AA contrast in light AND dark, all variants retint per tint, and a visible focus indicator on keyboard tab.
 
@@ -303,50 +311,50 @@ If the user says "whatever you think is best", recommend based on the Button bit
 
 2. **Commit** with a conventional message (use `pnpm commit`, or `git commit -m` directly):
 
-    ```bash
-    git add .
-    git commit -m "feat(<slug>): add <Component> bit wrapping bits-ui <Primitive>"
-    ```
+   ```bash
+   git add .
+   git commit -m "feat(<slug>): add <Component> bit wrapping bits-ui <Primitive>"
+   ```
 
-    Hooks fire (per [`.claude/tooling.md`](../tooling.md)): `pre-commit` (prettier + eslint + check), `commit-msg` (commitlint), `post-commit` (`scripts/auto-changeset.mjs` writes a minor-bump `.changeset/auto-*.md` for `feat:` and amends it into the same commit).
+   Hooks fire (per [`.claude/tooling.md`](../tooling.md)): `pre-commit` (prettier + eslint + check), `commit-msg` (commitlint), `post-commit` (`scripts/auto-changeset.mjs` writes a minor-bump `.changeset/auto-*.md` for `feat:` and amends it into the same commit).
 
 3. **Verify the changeset landed in the commit** (not as an orphan):
 
-    ```bash
-    git show --stat HEAD | grep changeset
-    git status                   # working tree must be clean
-    ```
+   ```bash
+   git show --stat HEAD | grep changeset
+   git status                   # working tree must be clean
+   ```
 
 4. **Refresh the homepage status snapshot** the per-component cards read:
 
-    ```bash
-    pnpm status
-    ```
+   ```bash
+   pnpm status
+   ```
 
 5. **Pause for user approval, then land.** From the primary checkout (where `dev` lives), per [`.claude/gitflow.md`](../gitflow.md). Order matters — remove the worktree FIRST (so `git branch -d` won't refuse a checked-out branch):
 
-    ```bash
-    cd /Users/apancha/WebstormProjects/sui
-    bin/wt rm <kebab-slug>                    # remove worktree first (frees the branch)
-    git flow feature finish <kebab-slug>      # merges into local dev, deletes the branch
-    ```
+   ```bash
+   cd /Users/apancha/WebstormProjects/sui
+   bin/wt rm <kebab-slug>                    # remove worktree first (frees the branch)
+   git flow feature finish <kebab-slug>      # merges into local dev, deletes the branch
+   ```
 
-    Landing on **origin** `dev` is **protected** — it only accepts a PR from a git-flow branch (the `guard-dev` check enforces the prefix), so push the feature branch and open a PR into `dev` rather than pushing `dev` directly:
+   Landing on **origin** `dev` is **protected** — it only accepts a PR from a git-flow branch (the `guard-dev` check enforces the prefix), so push the feature branch and open a PR into `dev` rather than pushing `dev` directly:
 
-    ```bash
-    git push -u origin feature/<kebab-slug>
-    gh pr create --base dev --head feature/<kebab-slug> --title "feat(<slug>): add <Component>" --body "…"
-    ```
+   ```bash
+   git push -u origin feature/<kebab-slug>
+   gh pr create --base dev --head feature/<kebab-slug> --title "feat(<slug>): add <Component>" --body "…"
+   ```
 
-    The release flow consumes the changeset when a `release/vX.Y.Z` branch is cut from `dev` (see [`.claude/distribution.md`](../distribution.md)).
+   The release flow consumes the changeset when a `release/vX.Y.Z` branch is cut from `dev` (see [`.claude/distribution.md`](../distribution.md)).
 
 6. **Mark all todos complete** and produce a summary:
-    - Component name + the bits-ui primitive it wraps.
-    - File list (`components/<name>/…`, `apps/playground/src/routes/<slug>/…`).
-    - Variant × tint × size matrix the demo covers.
-    - Test count (component + variants).
-    - The changeset (`.changeset/auto-*.md`) and its bump kind.
-    - Anything deferred.
+   - Component name + the bits-ui primitive it wraps.
+   - File list (`components/<name>/…`, `apps/playground/src/routes/<slug>/…`).
+   - Variant × tint × size matrix the demo covers.
+   - Test count (component + variants).
+   - The changeset (`.changeset/auto-*.md`) and its bump kind.
+   - Anything deferred.
 
 ---
 

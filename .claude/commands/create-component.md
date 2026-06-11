@@ -19,13 +19,13 @@ Add a component from a reference project into this repository with a predictable
 ## Precheck
 
 1. **Check the reference project first.** Look for the component in `../svelte-bits-ui` (e.g. `../svelte-bits-ui/src/lib/bits/<ComponentName>/`).
-    - If found: use it as the authoritative source and proceed.
-    - If not found: stop and ask the user:
-        > Component `<Name>` was not found in `../svelte-bits-ui`. How would you like to proceed?
-        > **a)** Abort
-        > **b)** Implement using the `bits-ui` headless primitive (run `/create-bit`)
-        > **c)** Download from `shadcn-svelte` registry (run `/create-shadcn`)
-        > Wait for the user's answer before continuing.
+   - If found: use it as the authoritative source and proceed.
+   - If not found: stop and ask the user:
+     > Component `<Name>` was not found in `../svelte-bits-ui`. How would you like to proceed?
+     > **a)** Abort
+     > **b)** Implement using the `bits-ui` headless primitive (run `/create-bit`)
+     > **c)** Download from `shadcn-svelte` registry (run `/create-shadcn`)
+     > Wait for the user's answer before continuing.
 2. If the component is using an external dependency, add it to the package.json. Do not change code to avoid dependency.
 3. If it is using an internal component as dependency, then migrate that component before the current component.
 4. Lastly, do not take short cuts. review and memorize karpathy.md
@@ -48,11 +48,11 @@ All Phase 1–4 work happens inside the worktree.
 1. Identify source files from the reference repo.
 2. List destination files in this repo.
 3. Confirm dependency impact:
-    - CSS imports and token usage
-    - alias/path compatibility
-    - exports from `src/lib/index.ts`
-    - route/demo integration
-    - test impact
+   - CSS imports and token usage
+   - alias/path compatibility
+   - exports from `src/lib/index.ts`
+   - route/demo integration
+   - test impact
 4. Produce a short implementation checklist before edits.
 
 ## Phase 2: Review
@@ -76,8 +76,8 @@ All Phase 1–4 work happens inside the worktree.
 3. Add route showcase page under `apps/playground/src/routes/<name>/` (the common app — all component demos live here).
 4. Update `apps/playground/src/routes/+page.svelte` to add the new component to the `sections` array so it appears on the home navigation.
 5. Create Storybook stories for the component (`*.stories.svelte`) with at least:
-    - a default story
-    - one variant/state story (size, tint, loading, invalid, etc.)
+   - a default story
+   - one variant/state story (size, tint, loading, invalid, etc.)
 6. Wire exports in `$src/lib/index.ts`.
 7. Keep changes minimal and focused.
 

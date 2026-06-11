@@ -30,26 +30,26 @@ components/button/src/
 import { tv, type VariantProps } from 'tailwind-variants';
 
 export const button = tv({
-    slots: {
-        base: 'inline-flex items-center justify-center gap-2 rounded-md font-medium focus-visible:outline-c-500 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50',
-        icon: 'size-4 shrink-0',
-        label: 'truncate',
-    },
-    variants: {
-        variant: {
-            solid: { base: 'bg-c-600 text-c-0 hover:bg-c-700' },
-            soft: { base: 'bg-c-100 text-c-700 hover:bg-c-200' },
-            outline: { base: 'border border-c-600 text-c-600 hover:bg-c-50' },
-        },
-        size: {
-            sm: { base: 'h-8 px-3 text-sm' },
-            md: { base: 'h-10 px-4' },
-            lg: { base: 'h-12 px-6 text-lg' },
-        },
-        tint: { primary: '', error: '', success: '' }, // retint via the .primary/.error utilities
-    },
-    compoundVariants: [{ variant: 'outline', size: 'lg', class: { base: 'border-2' } }],
-    defaultVariants: { variant: 'solid', size: 'md' },
+	slots: {
+		base: 'inline-flex items-center justify-center gap-2 rounded-md font-medium focus-visible:outline-c-500 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50',
+		icon: 'size-4 shrink-0',
+		label: 'truncate'
+	},
+	variants: {
+		variant: {
+			solid: { base: 'bg-c-600 text-c-0 hover:bg-c-700' },
+			soft: { base: 'bg-c-100 text-c-700 hover:bg-c-200' },
+			outline: { base: 'border border-c-600 text-c-600 hover:bg-c-50' }
+		},
+		size: {
+			sm: { base: 'h-8 px-3 text-sm' },
+			md: { base: 'h-10 px-4' },
+			lg: { base: 'h-12 px-6 text-lg' }
+		},
+		tint: { primary: '', error: '', success: '' } // retint via the .primary/.error utilities
+	},
+	compoundVariants: [{ variant: 'outline', size: 'lg', class: { base: 'border-2' } }],
+	defaultVariants: { variant: 'solid', size: 'md' }
 });
 
 export type ButtonVariants = VariantProps<typeof button>;
@@ -64,23 +64,23 @@ Derive the prop types from the config — never hand-maintain a parallel union:
 
 ```svelte
 <script lang="ts">
-    import type { Snippet } from 'svelte';
-    import { button, type ButtonVariants } from './button.variants';
+	import type { Snippet } from 'svelte';
+	import { button, type ButtonVariants } from './button.variants';
 
-    interface Props {
-        label: string;
-        variant?: ButtonVariants['variant']; // 'solid' | 'soft' | 'outline'
-        size?: ButtonVariants['size']; // 'sm' | 'md' | 'lg'
-        icon?: Snippet;
-    }
-    let { label, variant, size, icon }: Props = $props();
+	interface Props {
+		label: string;
+		variant?: ButtonVariants['variant']; // 'solid' | 'soft' | 'outline'
+		size?: ButtonVariants['size']; // 'sm' | 'md' | 'lg'
+		icon?: Snippet;
+	}
+	let { label, variant, size, icon }: Props = $props();
 
-    const styles = $derived(button({ variant, size })); // one fn per slot
+	const styles = $derived(button({ variant, size })); // one fn per slot
 </script>
 
 <button class={styles.base()}>
-    {#if icon}<span class={styles.icon()}>{@render icon()}</span>{/if}
-    <span class={styles.label()}>{label}</span>
+	{#if icon}<span class={styles.icon()}>{@render icon()}</span>{/if}
+	<span class={styles.label()}>{label}</span>
 </button>
 ```
 

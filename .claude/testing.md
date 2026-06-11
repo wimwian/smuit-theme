@@ -7,17 +7,17 @@
 ```typescript
 // vitest.config.ts (current)
 export default defineConfig({
-    test: {
-        include: ['src/**/*.{test,spec}.{ts,js,mjs,svelte.ts}'],
-        passWithNoTests: true,
-        coverage: {
-            provider: 'v8',
-            reportsDirectory: 'coverage',
-            reporter: ['text', 'json-summary', 'html', 'lcov'],
-            include: ['src/components/**/*.{ts,svelte}'],
-            exclude: ['src/components/**/*.{test,spec}.ts'],
-        },
-    },
+	test: {
+		include: ['src/**/*.{test,spec}.{ts,js,mjs,svelte.ts}'],
+		passWithNoTests: true,
+		coverage: {
+			provider: 'v8',
+			reportsDirectory: 'coverage',
+			reporter: ['text', 'json-summary', 'html', 'lcov'],
+			include: ['src/components/**/*.{ts,svelte}'],
+			exclude: ['src/components/**/*.{test,spec}.ts']
+		}
+	}
 });
 ```
 
@@ -45,22 +45,22 @@ pnpm exec playwright install --with-deps chromium
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-    test: {
-        browser: {
-            enabled: true,
-            provider: 'playwright',
-            headless: true,
-            instances: [{ browser: 'chromium' }],
-        },
-        include: ['components/**/*.{test,spec}.{ts,svelte.ts}'],
-        setupFiles: ['./test-setup.ts'],
-        coverage: {
-            provider: 'v8',
-            reporter: ['text', 'html', 'lcov'],
-            include: ['components/**/*.{ts,svelte}'],
-            exclude: ['components/**/*.test.ts'],
-        },
-    },
+	test: {
+		browser: {
+			enabled: true,
+			provider: 'playwright',
+			headless: true,
+			instances: [{ browser: 'chromium' }]
+		},
+		include: ['components/**/*.{test,spec}.{ts,svelte.ts}'],
+		setupFiles: ['./test-setup.ts'],
+		coverage: {
+			provider: 'v8',
+			reporter: ['text', 'html', 'lcov'],
+			include: ['components/**/*.{ts,svelte}'],
+			exclude: ['components/**/*.test.ts']
+		}
+	}
 });
 ```
 
@@ -83,28 +83,28 @@ import { render } from 'vitest-browser-svelte';
 import Button from './Button.svelte';
 
 test('renders children inside a button', async () => {
-    render(Button, { children: () => 'Click me' });
-    await expect.element(page.getByRole('button', { name: /click me/i })).toBeInTheDocument();
+	render(Button, { children: () => 'Click me' });
+	await expect.element(page.getByRole('button', { name: /click me/i })).toBeInTheDocument();
 });
 
 test('composes variant + tint classes', async () => {
-    render(Button, { variant: 'outline', tint: 'error', children: () => 'Delete' });
-    const btn = page.getByRole('button');
-    await expect.element(btn).toHaveClass(/btn/);
-    await expect.element(btn).toHaveClass(/btn-outline/);
-    await expect.element(btn).toHaveClass(/error/);
+	render(Button, { variant: 'outline', tint: 'error', children: () => 'Delete' });
+	const btn = page.getByRole('button');
+	await expect.element(btn).toHaveClass(/btn/);
+	await expect.element(btn).toHaveClass(/btn-outline/);
+	await expect.element(btn).toHaveClass(/error/);
 });
 
 test('fires onclick', async () => {
-    const onclick = vi.fn();
-    render(Button, { onclick, children: () => 'go' });
-    await page.getByRole('button').click();
-    expect(onclick).toHaveBeenCalledOnce();
+	const onclick = vi.fn();
+	render(Button, { onclick, children: () => 'go' });
+	await page.getByRole('button').click();
+	expect(onclick).toHaveBeenCalledOnce();
 });
 
 test('is disabled while loading', async () => {
-    render(Button, { loading: true, children: () => 'go' });
-    await expect.element(page.getByRole('button')).toBeDisabled();
+	render(Button, { loading: true, children: () => 'go' });
+	await expect.element(page.getByRole('button')).toBeDisabled();
 });
 ```
 
@@ -126,12 +126,12 @@ To test something in dark mode:
 
 ```typescript
 test('dark theme uses g-900 background', async () => {
-    document.documentElement.dataset.theme = 'dark';
-    render(Card, { children: () => 'content' });
-    const card = page.getByText('content');
-    const bg = await card.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(bg).not.toBe('');
-    // assert resolved oklch / rgb value if you need exactness
+	document.documentElement.dataset.theme = 'dark';
+	render(Card, { children: () => 'content' });
+	const card = page.getByText('content');
+	const bg = await card.evaluate((el) => getComputedStyle(el).backgroundColor);
+	expect(bg).not.toBe('');
+	// assert resolved oklch / rgb value if you need exactness
 });
 ```
 
@@ -140,7 +140,7 @@ Reset the theme in `afterEach` if you flip it inside a test:
 ```typescript
 import { afterEach } from 'vitest';
 afterEach(() => {
-    document.documentElement.removeAttribute('data-theme');
+	document.documentElement.removeAttribute('data-theme');
 });
 ```
 
@@ -153,22 +153,22 @@ E2E exercises the **built** playground, not source files. It catches integration
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-    testDir: './tests/e2e',
-    fullyParallel: true,
-    reporter: process.env.CI ? 'github' : 'list',
-    use: {
-        baseURL: 'http://localhost:4173',
-        trace: 'on-first-retry',
-    },
-    webServer: {
-        command: 'pnpm preview --port 4173 --strictPort',
-        port: 4173,
-        reuseExistingServer: !process.env.CI,
-    },
-    projects: [
-        { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-        // Add firefox/webkit when you actually need cross-browser
-    ],
+	testDir: './tests/e2e',
+	fullyParallel: true,
+	reporter: process.env.CI ? 'github' : 'list',
+	use: {
+		baseURL: 'http://localhost:4173',
+		trace: 'on-first-retry'
+	},
+	webServer: {
+		command: 'pnpm preview --port 4173 --strictPort',
+		port: 4173,
+		reuseExistingServer: !process.env.CI
+	},
+	projects: [
+		{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }
+		// Add firefox/webkit when you actually need cross-browser
+	]
 });
 ```
 
@@ -177,18 +177,20 @@ export default defineConfig({
 import { expect, test } from '@playwright/test';
 
 test('Button demo route renders all variants', async ({ page }) => {
-    await page.goto('/bits/button');
-    for (const variant of ['solid', 'soft', 'outline', 'ghost']) {
-        await expect(page.locator(`[data-button-root][data-variant="${variant}"]`).first()).toBeVisible();
-    }
+	await page.goto('/bits/button');
+	for (const variant of ['solid', 'soft', 'outline', 'ghost']) {
+		await expect(
+			page.locator(`[data-button-root][data-variant="${variant}"]`).first()
+		).toBeVisible();
+	}
 });
 
 test('theme toggle flips the document', async ({ page }) => {
-    await page.goto('/bits/button');
-    const before = await page.evaluate(() => document.documentElement.dataset.theme);
-    await page.locator('.theme-toggle').click();
-    const after = await page.evaluate(() => document.documentElement.dataset.theme);
-    expect(after).not.toBe(before);
+	await page.goto('/bits/button');
+	const before = await page.evaluate(() => document.documentElement.dataset.theme);
+	await page.locator('.theme-toggle').click();
+	const after = await page.evaluate(() => document.documentElement.dataset.theme);
+	expect(after).not.toBe(before);
 });
 ```
 
@@ -198,10 +200,10 @@ Playwright has built-in screenshot diffing. Add a spec per demo route once style
 
 ```typescript
 test('button variants match baseline', async ({ page }) => {
-    await page.goto('/bits/button');
-    await expect(page.locator('main')).toHaveScreenshot('button.png', {
-        maxDiffPixelRatio: 0.01,
-    });
+	await page.goto('/bits/button');
+	await expect(page.locator('main')).toHaveScreenshot('button.png', {
+		maxDiffPixelRatio: 0.01
+	});
 });
 ```
 

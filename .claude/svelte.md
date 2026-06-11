@@ -19,11 +19,11 @@ Declares reactive state. Changes to state automatically update the DOM.
 
 ```svelte
 <script lang="ts">
-    let count = $state(0);
+	let count = $state(0);
 </script>
 
 <button onclick={() => count++}>
-    Clicked {count} times
+	Clicked {count} times
 </button>
 ```
 
@@ -35,9 +35,9 @@ Computed value that re-evaluates when its dependencies change. Read-only.
 
 ```svelte
 <script lang="ts">
-    let firstName = $state('Alice');
-    let lastName = $state('Smith');
-    let fullName = $derived(firstName + ' ' + lastName);
+	let firstName = $state('Alice');
+	let lastName = $state('Smith');
+	let fullName = $derived(firstName + ' ' + lastName);
 </script>
 
 <p>{fullName}</p>
@@ -51,12 +51,12 @@ Runs arbitrary code when dependencies change. Use for side effects: DOM manipula
 
 ```svelte
 <script lang="ts">
-    let count = $state(0);
+	let count = $state(0);
 
-    $effect(() => {
-        console.log(`Count is now ${count}`);
-        document.title = `Count: ${count}`;
-    });
+	$effect(() => {
+		console.log(`Count is now ${count}`);
+		document.title = `Count: ${count}`;
+	});
 </script>
 ```
 
@@ -68,17 +68,17 @@ Declare props with full type safety and defaults.
 
 ```svelte
 <script lang="ts">
-    interface Props {
-        title: string;
-        disabled?: boolean;
-        onClick?: (e: MouseEvent) => void;
-    }
+	interface Props {
+		title: string;
+		disabled?: boolean;
+		onClick?: (e: MouseEvent) => void;
+	}
 
-    let { title, disabled = false, onClick }: Props = $props();
+	let { title, disabled = false, onClick }: Props = $props();
 </script>
 
 <button {disabled} onclick={onClick}>
-    {title}
+	{title}
 </button>
 ```
 
@@ -90,7 +90,7 @@ Mark a prop as bindable so the parent can use `bind:`.
 
 ```svelte
 <script lang="ts">
-    let { value = $bindable(0) }: { value?: number } = $props();
+	let { value = $bindable(0) }: { value?: number } = $props();
 </script>
 
 <input type="number" bind:value />
@@ -104,35 +104,35 @@ A well-formed Svelte component:
 
 ```svelte
 <script lang="ts">
-    // 1. Props
-    interface Props {
-        label: string;
-        disabled?: boolean;
-        onSubmit: (data: FormData) => void;
-    }
-    let { label, disabled = false, onSubmit }: Props = $props();
+	// 1. Props
+	interface Props {
+		label: string;
+		disabled?: boolean;
+		onSubmit: (data: FormData) => void;
+	}
+	let { label, disabled = false, onSubmit }: Props = $props();
 
-    // 2. State
-    let isLoading = $state(false);
+	// 2. State
+	let isLoading = $state(false);
 
-    // 3. Derived
-    let isDisabled = $derived(disabled || isLoading);
+	// 3. Derived
+	let isDisabled = $derived(disabled || isLoading);
 
-    // 4. Effects
-    $effect(() => {
-        // side effects here
-    });
+	// 4. Effects
+	$effect(() => {
+		// side effects here
+	});
 
-    // 5. Functions
-    function handleSubmit(e: SubmitEvent) {
-        e.preventDefault();
-        isLoading = true;
-        // ...
-    }
+	// 5. Functions
+	function handleSubmit(e: SubmitEvent) {
+		e.preventDefault();
+		isLoading = true;
+		// ...
+	}
 </script>
 
 <form onsubmit={handleSubmit}>
-    <button disabled={isDisabled}>{label}</button>
+	<button disabled={isDisabled}>{label}</button>
 </form>
 ```
 
@@ -142,9 +142,9 @@ Use `{#snippet}` for reusable template blocks. Replaces the old slot system.
 
 ```svelte
 <script lang="ts">
-    import type { Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
 
-    let { children }: { children: Snippet } = $props();
+	let { children }: { children: Snippet } = $props();
 </script>
 
 {@render children?.()}
@@ -171,9 +171,9 @@ Load data on the server before rendering. Access databases, APIs, secrets.
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
-    const post = await db.posts.findById(params.id);
-    if (!post) error(404, 'Post not found');
-    return { post };
+	const post = await db.posts.findById(params.id);
+	if (!post) error(404, 'Post not found');
+	return { post };
 }
 ```
 
@@ -186,8 +186,8 @@ Run on server and client (during navigation). Use for public data.
 ```typescript
 // src/routes/blog/+page.ts
 export async function load() {
-    const posts = await fetch('/api/posts').then((r) => r.json());
-    return { posts };
+	const posts = await fetch('/api/posts').then((r) => r.json());
+	return { posts };
 }
 ```
 
@@ -198,13 +198,13 @@ export async function load() {
 ```svelte
 <!-- src/routes/admin/+layout.svelte -->
 <script lang="ts">
-    import { page } from '$app/state';
-    let { children } = $props();
+	import { page } from '$app/state';
+	let { children } = $props();
 </script>
 
 <nav>
-    <a href="/admin">Dashboard</a>
-    <a href="/admin/users">Users</a>
+	<a href="/admin">Dashboard</a>
+	<a href="/admin/users">Users</a>
 </nav>
 
 <main>{@render children()}</main>
@@ -219,17 +219,17 @@ Handle form submissions on the server with progressive enhancement.
 import { fail } from '@sveltejs/kit';
 
 export const actions = {
-    default: async ({ request }) => {
-        const data = await request.formData();
-        const email = data.get('email');
+	default: async ({ request }) => {
+		const data = await request.formData();
+		const email = data.get('email');
 
-        if (!email) {
-            return fail(400, { error: 'Email required' });
-        }
+		if (!email) {
+			return fail(400, { error: 'Email required' });
+		}
 
-        await sendEmail(email);
-        return { success: true };
-    },
+		await sendEmail(email);
+		return { success: true };
+	}
 };
 ```
 
@@ -237,12 +237,12 @@ In the component, use `use:enhance` for client-side handling:
 
 ```svelte
 <script lang="ts">
-    import { enhance } from '$app/forms';
+	import { enhance } from '$app/forms';
 </script>
 
 <form method="POST" use:enhance>
-    <input name="email" type="email" required />
-    <button>Send</button>
+	<input name="email" type="email" required />
+	<button>Send</button>
 </form>
 ```
 
@@ -254,11 +254,11 @@ The form works **without JavaScript**. With JS, `use:enhance` prevents full-page
 
 ```svelte
 {#if condition}
-    <p>True branch</p>
+	<p>True branch</p>
 {:else if other}
-    <p>Other branch</p>
+	<p>Other branch</p>
 {:else}
-    <p>Else branch</p>
+	<p>Else branch</p>
 {/if}
 ```
 
@@ -268,7 +268,7 @@ Always provide a key expression for efficient list rendering.
 
 ```svelte
 {#each items as item (item.id)}
-    <div>{item.name}</div>
+	<div>{item.name}</div>
 {/each}
 ```
 
@@ -284,11 +284,11 @@ Always provide a key expression for efficient list rendering.
 
 ```svelte
 <script lang="ts">
-    import { fade, slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 </script>
 
 {#if visible}
-    <p transition:fade>Content</p>
+	<p transition:fade>Content</p>
 {/if}
 ```
 
