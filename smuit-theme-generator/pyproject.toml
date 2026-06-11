@@ -1,0 +1,28 @@
+[project]
+name = "smuit-theme-generator"
+version = "0.1.0"
+description = "Bakes the smuit oklch theme-input.toml into a flat distributable stylesheet"
+readme = "README.md"
+authors = [
+    { name = "@wimwian", email = "apancha@icloud.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "coloraide>=8.8.1",
+]
+
+[project.scripts]
+smuit-theme-generator = "smuit_theme_generator:main"
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

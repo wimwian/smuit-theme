@@ -1,0 +1,26 @@
+/*
+ * Copyright (c) 2026 @wimwian
+ * SPDX-License-Identifier: MIT
+ */
+
+@import 'tailwindcss';
+@import '../assets/output.css';
+
+@layer components {
+	.app-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		width: 90%;
+		margin-inline: auto;
+		padding: 0.75rem 1.5rem;
+		border-bottom: 1px solid var(--surface-border, currentColor);
+	}
+
+	.app-header-name {
+		font-weight: 600;
+		font-size: 1.125rem;
+		color: var(--surface-fg, inherit);
+	}
+}

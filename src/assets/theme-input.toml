@@ -1,0 +1,187 @@
+# Copyright (c) 2026 @wimwian
+# SPDX-License-Identifier: MIT
+
+#
+# Author the design here, then regenerate the distributable flat stylesheet:
+#
+#   pnpm --filter @wimwian-org/theme build:theme
+#
+# The generator bakes every tonal step, scale, surface token, and the
+# type / elevation / shadow ramps into concrete values — no runtime color-mix(),
+# contrast-color(), or light-dark(). Light is the default; dark is emitted both
+# as a [data-theme='dark'] override AND a prefers-color-scheme fallback.
+#
+# Edit THIS file. Never edit output.css by hand; it is generated and the build
+# is idempotent.
+
+# ── Base hues ─────────────────────────────────────────────────────────────────
+# One oklch base per colour role; the generator samples the tonal ramp from it.
+#   mono      — neutral / grayscale
+#   primary   — brand
+#   secondary — tonal accent
+#   tertiary  — complementary accent
+#   error     — destructive / invalid (RAG)
+#   warning   — caution (RAG)
+#   success   — positive / confirm (RAG)
+[hues]
+black = "oklch(0 0 0)"
+white = "oklch(1 0 0)"
+neutral = "oklch(0.5 0 0)"
+primary = "oklch(0.60 0.15 232)"
+secondary = "oklch(0.60 0.19 328)"
+tertiary = "oklch(0.60 0.17 71)"
+error = "oklch(0.6 0.26 29)"
+warning = "oklch(0.85 0.18 103)"
+success = "oklch(0.8 0.25 142)"
+
+# Scalar = the LIGHT step (dark mirrors to 1000 - light). Explicit mirrors use
+# `.light` / `.dark`. A role that owns a value AND nests modifiers (hover/focus/
+# bold) gives its own value via `.light` so it can stay a table. Values < 1 are a
+# state alpha applied to the parent's core surfaces (bg/fg/border).
+# Ramp notations
+# 0 -> black
+# 100 -> 80% black, 20% accent
+# 500 -> 100% accent
+# 750 -> 50% white, 50% accent
+# 1000 -> white
+[neutral]
+page.bg.light = 950
+page.bg.dark = 100
+page.fg.light = 100
+page.fg.dark = 900
+page.border.light = 250
+page.border.dark = 750
+
+canvas.bg.light = 900
+canvas.fg.light = 150
+canvas.bg.dark = 150
+canvas.fg.dark = 850
+canvas.border.light = 200
+canvas.border.dark = 800
+
+surface.bg.light = 850
+surface.bg.dark = 200
+surface.bg.hover.light = 900
+surface.bg.hover.dark = 250
+surface.bg.focus.light = 950
+surface.bg.focus.dark = 300
+surface.fg.light = 100
+surface.fg.dark = 900
+surface.border.light = 250
+surface.border.dark = 750
+surface.border.bold.light = 50
+surface.border.bold.dark = 950
+surface.readonly = 0.75
+surface.disabled = 0.6
+surface.elevation = "md"
+
+[palette]
+surface.bg.light = 850
+surface.bg.dark = 200
+surface.bg.hover.light = 900
+surface.bg.hover.dark = 250
+surface.bg.focus.light = 950
+surface.bg.focus.dark = 300
+surface.fg.light = 100
+surface.fg.dark = 900
+surface.border.light = 250
+surface.border.dark = 750
+surface.border.bold.light = 50
+surface.border.bold.dark = 950
+surface.readonly = 0.75
+surface.disabled = 0.6
+surface.elevation = "md"
+
+[rag]
+surface.bg.light = 850
+surface.bg.dark = 200
+surface.fg.light = 100
+surface.fg.dark = 900
+surface.border.light = 250
+surface.border.dark = 750
+surface.border.bold.light = 50
+surface.border.bold.dark = 950
+surface.elevation = "md"
+
+# ── Fonts ─────────────────────────────────────────────────────────────────────
+# Family names only — the families themselves (Noto Sans Display / Google Sans
+# Code / Noto Sans Mono) are loaded by the consuming app (e.g. a <link> in its
+# HTML head), NOT imported here.
+[fonts]
+sans = "'Noto Sans Display', Inter, sans-serif"
+mono = "'Noto Sans Mono', 'Google Sans Code', monospace"
+
+# ── Type variants ─────────────────────────────────────────────────────────────
+# One named variant per typographic role → --text-<role>-<label> utilities.
+#   steps  3 | 5 | 7   chooses the symmetric label set around md:
+#                        3 → sm · md · lg
+#                        5 → xs · sm · md · lg · xl
+#                        7 → 2xs · xs · sm · md · lg · xl · 2xl
+#   md     font size at md (px, rem, or unitless = px)
+#   ratio  optional per-variant modular ratio (defaults to ramp.font-ratio)
+# The midpoint can differ per role (title 24, heading 20, body 14, code 14…).
+[type]
+capitalize = 0
+small-caps = 0
+
+[type.display]
+capitalize = true
+width = 0.95
+weight = 600   # default font-weight for this role; override with font-semibold/bold
+sm.size = "28px / 40px"
+md.size = "36px / 44px"
+lg.size = "44px / 60px"
+
+[type.title]
+capitalize = 1
+small-caps = 1
+width = 0.975
+weight = 600  # default font-weight for this role; override with font-bold/
+sm.size = "20px / 28px"
+md.size = "24px / 32px"
+lg.size = "28px / 40px"
+
+[type.heading]
+capitalize = true
+width = 1
+weight = 600  # default font-weight for this role; override with font-bold/
+xs.size = "16px / 22px"
+sm.size = "18px / 26px"
+md.size = "20px / 28px"
+lg.size = "22px / 32px"
+xl.size = "24px / 34px"
+
+[type.body]
+weight = 500
+width = 1.0062
+xs.size = "12px / 16px"
+sm.size = "14px / 18px"
+md.size = "16px / 22px"
+lg.size = "18px / 24px"
+xl.size = "20px / 28px"
+
+[type.label]
+capitalize = 1
+small-caps = 1
+weight = 600
+width = 1.0125
+sm.size = "10px / 16px"
+md.size = "12px / 18px"
+lg.size = "14px / 20px"
+
+[type.code]
+width = 1.025
+weight = 600
+sm.size = "12px / 20px"
+md.size = "14px / 22px"
+lg.size = "16px / 24px"
+
+# ── Elevation ─────────────────────────────────────────────────────────────────
+[elevation]
+2xs = "0 1px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 2px 0 rgba(0, 0, 0, 0.14), 0 4px 4px -1px rgba(0, 0, 0, 0.12)"
+xs = "0 1px 6px -2px rgba(0, 0, 0, 0.2), 0 6px 4px 0 rgba(0, 0, 0, 0.14), 0 6px 6px -2px rgba(0, 0, 0, 0.12)"
+sm = "0 1px 8px -2px rgba(0, 0, 0, 0.2), 0 8px 4px 0 rgba(0, 0, 0, 0.14), 0 8px 8px -2px rgba(0, 0, 0, 0.12)"
+md = "0 1px 12px -2px rgba(0, 0, 0, 0.2), 0 12px 5px 0 rgba(0, 0, 0, 0.14), 0 12px 12px -2px rgba(0, 0, 0, 0.12)"
+lg = "0 1px 16px -2px rgba(0, 0, 0, 0.2), 0 16px 8px 0 rgba(0, 0, 0, 0.14), 0 16px 16px -2px rgba(0, 0, 0, 0.12)"
+xl = "0 1px 20px -2px rgba(0, 0, 0, 0.2), 0 20px 10px 0 rgba(0, 0, 0, 0.14), 0 20px 20px -2px rgba(0, 0, 0, 0.12)"
+2xl = "0 1px 24px -2px rgba(0, 0, 0, 0.2), 0 24px 14px 0 rgba(0, 0, 0, 0.14), 0 24px 24px -2px rgba(0, 0, 0, 0.12)"
