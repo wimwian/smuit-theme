@@ -1,5 +1,8 @@
 node_modules
 
+./src/assets/output.css
+./src/assets/output.min.css
+
 # Output
 .output
 .vercel

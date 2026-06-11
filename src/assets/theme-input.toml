@@ -129,7 +129,7 @@ capitalize = true
 width = 0.95
 weight = 600   # default font-weight for this role; override with font-semibold/bold
 sm.size = "28px / 40px"
-md.size = "36px / 44px"
+md.size = "36px / 50px"
 lg.size = "44px / 60px"
 
 [type.title]
@@ -138,7 +138,7 @@ small-caps = 1
 width = 0.975
 weight = 600  # default font-weight for this role; override with font-bold/
 sm.size = "20px / 28px"
-md.size = "24px / 32px"
+md.size = "24px / 34px"
 lg.size = "28px / 40px"
 
 [type.heading]
@@ -147,34 +147,34 @@ width = 1
 weight = 600  # default font-weight for this role; override with font-bold/
 xs.size = "16px / 22px"
 sm.size = "18px / 26px"
-md.size = "20px / 28px"
-lg.size = "22px / 32px"
-xl.size = "24px / 34px"
+md.size = "20px / 30px"
+lg.size = "22px / 34px"
+xl.size = "24px / 38px"
 
 [type.body]
 weight = 500
 width = 1.0062
 xs.size = "12px / 16px"
-sm.size = "14px / 18px"
-md.size = "16px / 22px"
-lg.size = "18px / 24px"
-xl.size = "20px / 28px"
+sm.size = "14px / 20px"
+md.size = "16px / 24px"
+lg.size = "18px / 28px"
+xl.size = "20px / 32px"
 
 [type.label]
 capitalize = 1
 small-caps = 1
 weight = 600
 width = 1.0125
-sm.size = "10px / 16px"
+sm.size = "10px / 14px"
 md.size = "12px / 18px"
-lg.size = "14px / 20px"
+lg.size = "14px / 22px"
 
 [type.code]
 width = 1.025
 weight = 600
 sm.size = "12px / 20px"
-md.size = "14px / 22px"
-lg.size = "16px / 24px"
+md.size = "14px / 24px"
+lg.size = "16px / 28px"
 
 # ── Elevation ─────────────────────────────────────────────────────────────────
 [elevation]
