@@ -19,11 +19,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      # Node before pnpm — see ci.yml for why.
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - uses: pnpm/action-setup@v4
+      # Provision pnpm via corepack — see ci.yml for why action-setup can't be used.
+      - run: corepack enable
       - name: Enable pnpm store cache + npm registry auth
         uses: actions/setup-node@v4
         with:
