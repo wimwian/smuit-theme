@@ -72,7 +72,7 @@ def test_type_emitted_as_utility_blocks_not_tokens():
     assert "font-size: 36px;" in block
     assert "line-height: 44px;" in block
     assert "font-weight: 600;" in block
-    assert "font-width: 95%;" in block  # per-role width ratio → %
+    assert "font-stretch: 95%;" in block  # per-role width ratio → %
     # … and no longer --text-* custom properties
     assert "--text-display" not in std
 

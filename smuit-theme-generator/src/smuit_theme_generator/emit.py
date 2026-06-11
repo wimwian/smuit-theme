@@ -115,8 +115,12 @@ def _type_utilities(model: Model) -> list[str]:
     """Typographic roles as Tailwind ``@utility <role>-<label>`` blocks.
 
     Each block applies the resolved values directly — ``font-size`` / ``line-height``
-    / ``font-weight`` (per role) / ``font-width`` (per-role ratio as a %) — rather than
+    / ``font-weight`` (per role) / ``font-stretch`` (per-role ratio as a %) — rather than
     emitting ``--text-*`` custom properties.
+
+    Width is emitted as ``font-stretch`` (not the newer ``font-width`` alias): Lightning
+    CSS — Tailwind v4's engine — drops ``font-width`` as unrecognised, which would leave
+    the width inert in the browser.
     """
     out: list[str] = []
     for ramp in model.type:
@@ -126,7 +130,7 @@ def _type_utilities(model: Model) -> list[str]:
                 body.append(_decl("line-height", line_height))
             body.append(_decl("font-weight", str(ramp.weight)))
             if ramp.width is not None:
-                body.append(_decl("font-width", _pct(ramp.width)))
+                body.append(_decl("font-stretch", _pct(ramp.width)))
             if ramp.capitalize:
                 body.append(_decl("text-transform", "capitalize"))
             if ramp.small_caps:

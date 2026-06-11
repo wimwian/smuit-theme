@@ -80,7 +80,7 @@ class TypeRamp:
     """A typographic role: per-label (size, line-height) pairs + a default weight.
 
     ``width`` is an optional per-role font-width ratio (1.0 = normal), emitted as a
-    ``font-width`` percentage. ``capitalize`` / ``small_caps`` are per-role on/off
+    ``font-stretch`` percentage. ``capitalize`` / ``small_caps`` are per-role on/off
     flags → ``text-transform: capitalize`` / ``font-variant-caps: small-caps``.
     """
 
