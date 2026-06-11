@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [master, dev]
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4 # reads packageManager from package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install Playwright chromium (vitest browser mode)
+        run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm check
+      - run: pnpm lint
+      - run: pnpm test:unit -- --run
+      - name: Verify the package builds (svelte-package + publint)
+        run: pnpm prepack
+
+  # On PRs targeting master (release/hotfix → master), fail if any changeset is
+  # still pending — they must be consumed by `pnpm changeset version` first.
+  changeset-consumed:
+    if: github.event_name == 'pull_request' && github.base_ref == 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify all changesets are consumed
+        run: |
+          if ls .changeset/*.md 2>/dev/null | grep -v README.md | grep -q .; then
+            echo "::error::Pending changesets on a release branch. Run 'pnpm changeset version'."
+            exit 1
+          fi
