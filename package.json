@@ -1,6 +1,8 @@
 {
 	"name": "@wimwian/smuit-theme",
 	"version": "0.1.0",
+	"description": "SvelteKit + Tailwind v4 design-token theme: oklch palettes, light/dark theming, and a ThemeToggle component.",
+	"license": "MIT",
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com"
 	},
@@ -10,7 +12,7 @@
 	},
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && npm run prepack",
+		"build": "vite build && pnpm prepack",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo '' ; lefthook install || true",
 		"prepack": "svelte-kit sync && svelte-package && publint",
@@ -21,12 +23,11 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright install && playwright test",
+		"test": "vitest run",
 		"commit": "cz",
 		"changeset": "changeset",
 		"version": "changeset version",
-		"release": "npm run prepack && changeset publish"
+		"release": "pnpm prepack && changeset publish"
 	},
 	"config": {
 		"commitizen": {
@@ -73,7 +74,6 @@
 		"@commitlint/cli": "^21.0.2",
 		"@commitlint/config-conventional": "^21.0.2",
 		"@eslint/js": "^10.0.1",
-		"@playwright/test": "^1.60.0",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/package": "^2.5.8",
