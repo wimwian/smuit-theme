@@ -1,5 +1,12 @@
 # @smuit/smuit-theme
 
+## 0.3.0
+
+### Minor Changes
+
+- e500dff: Rename the package to `@smuit/smuit-theme` and move the repository to the `smuit` GitHub org. Consumers must update their imports from `@wimwian/smuit-theme` to `@smuit/smuit-theme` — including the subpath entry points `@smuit/smuit-theme/fonts.css`, `@smuit/smuit-theme/theme.minified.css`, and `@smuit/smuit-theme/ThemeToggle.svelte`. The package now publishes to the `smuit` org's GitHub Packages registry.
+- e500dff: Typography updates: increase the `body` (xs–xl) and `label` (sm–lg) type-scale font sizes, and adjust the `display-md` line-height. The generated theme stylesheet now emits the standard `font-stretch` property in place of the previous non-standard `font-width`.
+
 ## 0.2.0
 
 ### Minor Changes
