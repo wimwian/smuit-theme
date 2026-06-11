@@ -1,6 +1,6 @@
 {
 	"name": "@smuit/smuit-theme",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "SvelteKit + Tailwind v4 design-token theme: oklch palettes, light/dark theming, and a ThemeToggle component.",
 	"license": "MIT",
 	"publishConfig": {
