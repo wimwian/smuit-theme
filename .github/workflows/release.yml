@@ -30,7 +30,7 @@ jobs:
           node-version: 24
           cache: pnpm
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@wimwian'
+          scope: '@smuit'
       - run: pnpm install --frozen-lockfile
       - name: Build the package
         run: pnpm prepack
