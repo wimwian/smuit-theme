@@ -13,12 +13,9 @@
 
 	let { class: className }: Props = $props();
 
-	// Local mirror of the global `data-theme` register; synced on mount.
-	let theme = $state<Theme>('light');
-
-	$effect(() => {
-		theme = getTheme();
-	});
+	// Local mirror of the global `data-theme` register. Writable $derived: reads
+	// the live value during init (SSR-safe → 'light'), overwritten on toggle.
+	let theme = $derived<Theme>(getTheme());
 
 	function toggle() {
 		theme = theme === 'dark' ? 'light' : 'dark';
