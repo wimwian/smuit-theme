@@ -1,4 +1,4 @@
-# smuit-theme
+# @wimwian/smuit-theme
 
 ## 0.1.0
 

@@ -1,6 +1,13 @@
 {
-	"name": "smuit-theme",
+	"name": "@wimwian/smuit-theme",
 	"version": "0.1.0",
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wimwian/smuit-theme.git"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",
